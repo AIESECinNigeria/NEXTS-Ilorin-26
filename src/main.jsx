@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-// Example NotFound page
+// NotFound page
 const NotFound = () => <h1>Page Not Found</h1>
 
 const router = createBrowserRouter([
