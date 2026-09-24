@@ -1,0 +1,14 @@
+.container {
+    /* 1. NextsBg (Top) -> 2. Gradient (Middle) -> 3. Texture (Bottom) */
+    background-image: 
+        url('/images/nextsBg.png'), 
+        linear-gradient(rgba(26, 27, 30, 0.9), rgba(26, 27, 30, 0.9)), 
+        url('/images/texture.png');
+    background-color: #1A1B1E;
+    background-position: left, center, center;
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-size: contain, cover, cover; 
+
+    width: 100%;
+    min-height: 100dvh;
+}
