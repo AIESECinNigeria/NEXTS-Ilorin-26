@@ -1,5 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Faculty+Glyphic&display=swap");
 @import "tailwindcss";
 
+
+@theme {
+  --font-aoboshi: "Aoboshi One", serif;
+  --font-faculty: "Faculty Glyphic", sans-serif;
+  --spacing: 16px;
+  --animate-largen: largen 2s ease-in-out;
+  @keyframes largen {
+    0% {
+      opacity: 25%;
+      transform: scaleY(0.5);
+    },
+    100% {
+      opacity: 100%;
+      transform: scaleY(1);
+    }
+  }
+}
+
+.faculty-glyphic-regular {
+  font-family: "Faculty Glyphic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* @font-face {
+  font-family: "Aoboshi One", serif;
+  font-style: normal;
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/Oswald.woff2") format("woff2");
+} */
 
 /* :root {
   --text: #6b6375;
@@ -56,9 +88,7 @@ body {
 }
 
 #root {
-  min-width: 1126px;
   max-width: 100%;
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
 }

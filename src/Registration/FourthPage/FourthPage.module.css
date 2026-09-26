@@ -1,8 +1,8 @@
 .container {
-    background-image: url('/images/firstReg.png');
+    background-image: url('/images/coolmetal.png');
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: left bottom;
+    background-size: 50%;
+    background-position: top left;
 
     width: 100%;
 }
@@ -27,10 +27,10 @@ input::placeholder, select::placeholder {
 
 @media (max-width: 400px) {
     .container {
-        background-image: url('/images/smbuilding.png');
+        background-image: url('/images/coolmetal.png');
         background-repeat: no-repeat;
-        background-size: 75%;
-        background-position: top ;
+        background-size: 100%;
+        background-position: left 0px;
     
         width: 100%;
     }
