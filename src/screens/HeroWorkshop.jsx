@@ -30,7 +30,7 @@ export default function HeroWorkshop({ onNext }) {
       onDone={() => setTyped(true)}
       className={
         isMobile
-          ? 'absolute top-56.25 left-5.25 w-33 text-[19.394px] leading-[21.818px]'
+          ? 'absolute top-121.75 left-5.25 w-83.75 text-[32px] leading-8.5'
           : 'absolute top-16 left-30 w-138.5 text-[64px] leading-18'
       }
     />
@@ -39,14 +39,10 @@ export default function HeroWorkshop({ onNext }) {
   return isMobile ? (
     <WorkshopFrame
       mobile
+      mobileHeight={775}
+      mobileGap
       text={text}
-      photo={
-        <img
-          src={IMAGES.forge13}
-          alt="Clay pots in a potter's workshop"
-          className="absolute top-0 left-0 h-[450.804px] w-[253.577px] object-cover"
-        />
-      }
+      photo={IMAGES.mHero03Photo}
     />
   ) : (
     <WorkshopFrame photoHeight={896} photo={<ForgeLayers forge4Top={-45.9} />} text={text} />

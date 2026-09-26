@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
 import Stage from './Stage'
-import { MOBILE } from './stageSizes'
-import { GlassLine } from './GlassText'
+import { MOBILE, mobileWorkshop } from './stageSizes'
 import { IMAGES } from '../content'
 import { fadeFrom } from '../motion'
 
 
-export default function WorkshopFrame({ mobile, text, photo, photoHeight, action }) {
+// mobileGap: tighter spacing on mobile (top bar at 16, photo at 64) instead of the Figma spacing (24 / 92)
+export default function WorkshopFrame({ mobile, mobileHeight, mobileGap = false, text, photo, photoHeight, action }) {
   if (mobile) {
     return (
       <section className="absolute inset-0 overflow-hidden bg-ink">
@@ -16,13 +16,13 @@ export default function WorkshopFrame({ mobile, text, photo, photoHeight, action
           </div>
         </Stage>
 
-        <Stage size={MOBILE}>
-          <VerticalWatermark />
-          {text}
-          <motion.div {...fadeFrom({ x: 40 }, 0.3, 1.2)} className="absolute top-42.75 left-39.75 h-101.75 w-52.25 overflow-clip">
-            {photo}
-            <div className="absolute inset-0 bg-nexts opacity-75 mix-blend-color-burn" />
+        <Stage size={mobileWorkshop(mobileHeight)}>
+          <motion.div {...fadeFrom({ y: -12 }, 0.2, 0.8)} className={`absolute left-5 flex h-7 w-83.5 items-center justify-between ${mobileGap ? 'top-4' : 'top-6'}`}>
+            <img src={IMAGES.mTopbarIcon} alt="" className="h-7 w-7.25" />
+            <img src={IMAGES.logo} alt="NEXTS Ilorin 2026" className="h-7 w-21.5" />
           </motion.div>
+          <motion.img {...fadeFrom({ x: 40 }, 0.3, 1.2)} src={photo} alt="" className={`absolute left-5 h-100.75 w-83.75 object-cover ${mobileGap ? 'top-16' : 'top-23'}`} />
+          {text}
           {action}
         </Stage>
       </section>
@@ -58,31 +58,12 @@ export default function WorkshopFrame({ mobile, text, photo, photoHeight, action
   )
 }
 
-
-function VerticalWatermark() {
-  return [0, 1, 2].map((copy) => (
-    <div
-      key={copy}
-      aria-hidden
-      className="pointer-events-none absolute -top-px left-[80.5px] -translate-x-1/2 text-center text-[191.226px] leading-[148.2px] tracking-[-19.1226px] opacity-24 select-none"
-    >
-      <GlassLine from={{ y: -60 }}>
-        {[...'NEXTS'].map((letter) => (
-          <span key={letter} className="block">
-            {letter}
-          </span>
-        ))}
-      </GlassLine>
-    </div>
-  ))
-}
-
 // The pottery stack used behind the desktop photos.
 export function ForgeLayers({ forge4Top }) {
   return (
     <>
       <img src={IMAGES.forge4} alt="" className="absolute left-[-416.85px] h-[833.372px] w-[1178.917px] object-cover" style={{ top: forge4Top }} />
-      <img src={IMAGES.forge13} alt="Clay pots in a potter's workshop" className="absolute top-[-64px] left-[-65px] h-[1280px] w-[720px] object-cover" />
+      <img src={IMAGES.forge13} alt="Clay pots in a potter's workshop" className="absolute -top-16 -left-16.25 h-320 w-180 object-cover" />
     </>
   )
 }

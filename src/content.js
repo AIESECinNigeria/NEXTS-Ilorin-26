@@ -30,6 +30,9 @@ export const IMAGES = {
   mHeader01: img('m-header-01.svg'),
   mHeader02: img('m-header-02.svg'),
   mArrowsOrange: img('m-arrows-orange.svg'),
+  mTopbarIcon: img('m-topbar-icon.svg'),
+  mHero03Photo: img('m-hero03-photo.png'),
+  mHero04Photo: img('m-hero04-photo.png'),
 }
 
 export const TIMING = {

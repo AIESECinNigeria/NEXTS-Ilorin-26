@@ -27,7 +27,7 @@ export default function HeroReady({ onNext }) {
       onDone={() => setTyped(true)}
       className={
         isMobile
-          ? 'absolute top-74 left-5.25 w-30 text-[19.394px] leading-[21.818px] tracking-[-0.58px]'
+          ? 'absolute top-121.75 left-5.25 w-80 text-[32px] leading-8.5'
           : 'absolute top-16 left-30 w-140.25 text-[64px] leading-17 tracking-[-1.92px]'
       }
     />
@@ -35,6 +35,21 @@ export default function HeroReady({ onNext }) {
 
   const button = (
     <HoldButton
+      label="100% ready"
+      arrow={IMAGES.arrowsDark}
+      onComplete={onNext}
+      trackClass="bg-cream border border-cream"
+      fillClass="bg-nexts"
+      chipClass="bg-nexts"
+      labelClass="text-cream"
+      doneLabelClass="text-ink"
+    />
+  )
+
+  // Mobile 8: a 335×40 bar
+  const mobileButton = (
+    <HoldButton
+      size="bar"
       label="100% ready"
       arrow={IMAGES.arrowsDark}
       onComplete={onNext}
@@ -57,20 +72,13 @@ export default function HeroReady({ onNext }) {
     return (
       <WorkshopFrame
         mobile
+        mobileHeight={733}
+        mobileGap
         text={text}
-        photo={
-          <img
-            src={IMAGES.portrait}
-            alt="Woman in a red headwrap and coral beads"
-            className="absolute -top-26.25 -left-84.75 h-145 w-217.5 object-cover"
-          />
-        }
+        photo={IMAGES.mHero04Photo}
         action={
-          <motion.div {...reveal}>
-            <div className="absolute top-150.75 left-39.75 w-147.5 origin-top-left scale-[0.35593]">{button}</div>
-            <p className="absolute top-157.5 right-5.5 font-creato text-[12px] font-bold whitespace-nowrap text-white">
-              Long press to activate
-            </p>
+          <motion.div {...reveal} className="absolute top-169.25 left-5 w-83.75">
+            {mobileButton}
           </motion.div>
         }
       />

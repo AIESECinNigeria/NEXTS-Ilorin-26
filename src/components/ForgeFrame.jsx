@@ -24,6 +24,14 @@ export default function ForgeFrame({ mobile, mobileHeader, children }) {
             className="absolute left-2.25 h-[32.64px] w-[371.386px]"
             style={{ top: mobileHeader.top - 0.32 }}
           />
+          <motion.div
+            {...fadeFrom({ y: -12 }, 0.2, 0.8)}
+            className="absolute left-2.25 w-42 font-glyphic text-[10px] leading-3.5 tracking-[0.2px] whitespace-nowrap uppercase"
+            style={{ top: mobileHeader.top + 2.25 }}
+          >
+            <p>{TOP_BAR.from}</p>
+            <p>{TOP_BAR.via}</p>
+          </motion.div>
         </Stage>
       </section>
     )

@@ -10,6 +10,12 @@ const SIZES = {
     label: 'text-stroke-self text-[16px] leading-[20px]',
     arrow: 'h-[20px] w-[34.856px]',
   },
+  bar: {
+    button: 'h-10',
+    chip: 'px-4.5',
+    label: 'text-[12px] leading-[15px]',
+    arrow: 'h-3.75 w-6.5',
+  },
   mobile: {
     button: 'h-[29.8px]',
     chip: 'h-[30.04px] w-[91.194px] px-[13.865px] py-[9.243px]',
