@@ -11,7 +11,7 @@ import FirstPage from './Registration/FirstPage/FirstPage.jsx'
 import SecondPage from './Registration/SecondPage/SecondPage.jsx'
 import ThirdPage from './Registration/ThirdPage/ThirdPage.jsx'
 import FourthPage from './Registration/FourthPage/FourthPage.jsx'
-//import Success from './Registration/Success/Success.jsx'
+import Success from './Registration/Success/success.jsx'
 
 // Example NotFound page
 const NotFound = () => <h1>Page Not Found</h1>

@@ -6,14 +6,8 @@ import HeroWorkshop from './screens/HeroWorkshop'
 import HeroReady from './screens/HeroReady'
 import { GlassFilterDefs } from './components/GlassText'
 import { TIMING } from './content'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 
 import './App.css'
-import { useNavigate } from "react-router-dom";
-import FirstPage from './Registration/FirstPage/FirstPage'
-import Registration from './Registration/Registration'
 
 const STEPS = [HeroIntro, HeroCall, HeroWorkshop, HeroReady, RegistrationPlaceholder]
 
