@@ -67,8 +67,8 @@ const ThirdPage = () => {
                                 defaultValue=""
                             >
                                 <option value="" disabled>Choose your workshop arrangement</option>
-                                <option value="yes">YES</option>
-                                <option value="no">NO</option>
+                                <option value="true">YES</option>
+                                <option value="false">NO</option>
                             </select>
                             {errors.roomSituation && <p className="text-sm text-red-200 mt-1">{errors.roomSituation.message}</p>}
                         </label>

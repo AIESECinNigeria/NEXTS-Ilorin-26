@@ -8,7 +8,9 @@ import Progress from '../../Components/progress';
 const FourthPage = () => {
     const { register, control, trigger, handleSubmit, formState: { errors } } = useFormContext();
     const navigate = useNavigate();
-  
+    
+    const [isLoading, setIsLoading] = useState(false);
+
     const inputValue1 = useWatch({ control, name: "nextOfKin" }) || "";
     const inputValue2 = useWatch({ control, name: "relationship" }) || "";
     const inputValue3 = useWatch({ control, name: "expectations" }) || "";
@@ -21,13 +23,39 @@ const FourthPage = () => {
     if (inputValue4.trim().length !== 0) progress += 25;
 
     const onFinalSubmit = async (allFormData) => {
+        setIsLoading(true);
+        const payload = {
+            // Core Profile Information
+            name: allFormData.fullName,
+            phone: allFormData.number,
+            gender: allFormData.gender,
+            email: allFormData.email,
+            date_of_birth: allFormData.d_o_b,
+            
+            lc: allFormData.lc,
+            role: allFormData.role,
+            allergies: allFormData.allergies,
+            allergy_treatment: allFormData.remedy,
+            
+            first_conference: allFormData.first_conf === "true" || allFormData.first_conf === true,
+            can_stay_with_opposite_sex: allFormData.roomSituation === "true" || allFormData.roomSituation === true,
+            
+            emergency_contact: allFormData.nextOfKin,
+            emergency_contact_relationship: allFormData.relationship,
+            expectations: allFormData.expectations,
+            additional_information: allFormData.additionalInfo
+        };
+
+        console.log("MAPPED PAYLOAD READY FOR PYDANTIC:", payload);
+
+
         console.log("EXACT JSON SENT TO BACKEND:", JSON.stringify(allFormData, null, 2));
         console.log("Submitting complete form to API:", allFormData);
         try {
-            const response = await axios.post('https://ain-backend.fly.dev/api/nexts-ilorin/register', allFormData, {
-              headers: {
-                'Content-Type': 'application/json',
-              }
+            const response = await axios.post('https://ain-backend.fly.dev/api/nexts-ilorin/register', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             });
         
             console.log("Registration successful!", response.data);
@@ -35,13 +63,26 @@ const FourthPage = () => {
         
         } catch (error) {
             console.error('Registration API error:', error);
-            const errorMessage = error.response?.data?.error || 'Failed to register. Please try again.';
-            alert(`Backend error: ${errorMessage}`);
+            const backendMessage = error.response?.data?.message || error.response?.data?.error;
+            console.log("Backend rejection reason details:", error.response?.data);
+            
+            alert(`Backend error: ${backendMessage || 'Failed to register. Please check input formats.'}`);
+        } finally {
+            setIsLoading(false); 
         }
     };
 
     return (
         <div className={`${styles.container} pt-5 sm:pt-0 text-white `}>
+            {isLoading && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4">
+                    {/* Tailwind CSS Animate-Spin Spinner */}
+                    <div className="w-14 h-14 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="font-faculty text-lg text-white tracking-widest animate-pulse">
+                        STOKING THE FORGE...
+                    </p>
+                </div>
+            )}
             <div className={`flex sm:justify-end justify-center `}>
                 <div className='py-3 sm:pr-2 text-[#1A1B1E] font-aoboshi sm:text-[24px] text-[16px] '>
                     
@@ -99,7 +140,7 @@ const FourthPage = () => {
                     </form>
 
                     <div className={`flex justify-between items-center mt-3 relative `}>
-                        <button type="button" onClick={() => navigate("/registration/step-three")} className={`bg-white text-black text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
+                        <button disabled={isLoading} type="button" onClick={() => navigate("/registration/step-three")} className={`bg-white text-black text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
                             <img src='/images/left.png' className='w-[20px] h-[20px] object-contain no-repeat ' alt="back icon" />
                             <p>BACK</p>
                         </button>
@@ -107,7 +148,7 @@ const FourthPage = () => {
                             <img src='/images/puzzly.png' className='w-[180px] h-[180px] object-contain no-repeat absolute left-15 bottom-0 ' alt="decorative puzzle" />
                         </div>
                         
-                        <button type="submit" onClick={handleSubmit(onFinalSubmit)} className={`bg-[#FF6B00] text-white text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
+                        <button disabled={isLoading} type="submit" onClick={handleSubmit(onFinalSubmit)} className={`bg-[#FF6B00] text-white text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
                             <p>SUBMIT</p>
                             <img src='/images/right.png' className='w-[20px] h-[20px] object-contain no-repeat ' alt="next icon" />
                         </button>

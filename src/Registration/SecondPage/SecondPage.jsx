@@ -103,8 +103,8 @@ const SecondPage = () => {
                                 defaultValue=""
                             >
                                 <option value="" disabled>Select one</option>
-                                <option value="yes">YES</option>
-                                <option value="no">NO</option>
+                                <option value="true">YES</option>
+                                <option value="false">NO</option>
                             </select>
                             {errors.first_conf && <p className="text-sm text-red-200 mt-1">{errors.first_conf.message}</p>}
                         </label>
