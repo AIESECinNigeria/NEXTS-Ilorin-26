@@ -1,19 +1,14 @@
 import React from 'react'
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { createRoot } from 'react-dom/client'
 
 import './index.css'
 import App from './App.jsx'
 import Registration from './Registration/Registration.jsx'
-import FirstPage from './Registration/FirstPage/FirstPage.jsx'
-import SecondPage from './Registration/SecondPage/SecondPage.jsx'
-import ThirdPage from './Registration/ThirdPage/ThirdPage.jsx'
-import FourthPage from './Registration/FourthPage/FourthPage.jsx'
-import Success from './Registration/Success/success.jsx'
 
-// Example NotFound page
+import Success from './Registration/Success/Success.jsx'
+
+
 const NotFound = () => <h1>Page Not Found</h1>
 
 const router = createBrowserRouter([
@@ -32,7 +27,7 @@ const router = createBrowserRouter([
   },
 ])
 
-// Rendering to DOM
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
