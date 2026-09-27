@@ -1,0 +1,35 @@
+.container {
+    /* These pages use 16px Tailwind spacing steps (p-2 = 32px); the hero screens keep the default 4px */
+    --spacing: 16px;
+
+    /* 1. NextsBg (Top) -> 2. Gradient (Middle) -> 3. Texture (Bottom) */
+    background-image: 
+        url('/images/nextsBg.png'), 
+        linear-gradient(rgba(26, 27, 30, 0.9), rgba(26, 27, 30, 0.9)), 
+        url('/images/texture.png');
+    background-color: #1A1B1E;
+    background-position: 100px center, center, center;
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-size: contain, cover, cover; 
+
+    width: 100%;
+}
+
+@media (max-width: 400px) {
+    .container {
+    /* These pages use 16px Tailwind spacing steps (p-2 = 32px); the hero screens keep the default 4px */
+    --spacing: 16px;
+
+        /* 1. NextsBg (Top) -> 2. Gradient (Middle) -> 3. Texture (Bottom) */
+        background-image: 
+            url('/images/smnextsBg.png'), 
+            linear-gradient(rgba(26, 27, 30, 0.9), rgba(26, 27, 30, 0.9)), 
+            url('/images/texture.png');
+        background-color: #1A1B1E;
+        background-position: left 0px bottom 75px, center, center;
+        background-repeat: no-repeat, no-repeat, repeat;
+        background-size: contain, cover, cover; 
+    
+        width: 100%;
+    }
+}

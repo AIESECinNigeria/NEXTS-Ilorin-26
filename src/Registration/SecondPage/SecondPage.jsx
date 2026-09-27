@@ -28,7 +28,7 @@ const SecondPage = () => {
     };
 
     return (
-        <div className={`${styles.container} pt-5 sm:pt-0 text-white `}>
+        <div className={`${styles.container} md:pr-2 sm:pr-0 sm:pt-0 text-white `}>
             <div className={`flex sm:justify-end justify-center `}>
                 <div className='py-3 sm:pr-2 text-[#1A1B1E] font-aoboshi sm:text-[24px] text-[16px] '>
                     <div className={`bg-[#FF6B00] flex flex-col sm:w-36 w-20 sm:p-2 p-1 pb-7 `}>
@@ -42,6 +42,7 @@ const SecondPage = () => {
                         {/* DOB Input */}
                         <label htmlFor='dob'> When was the apprentice sculpted? <br/>
                             <input
+                            className='mt-1'
                                 id="dob"
                                 {...register("d_o_b", { required: "Date of Birth is required" })}
                                 type="date"
@@ -53,6 +54,7 @@ const SecondPage = () => {
                         {/* LC Input */}
                         <label htmlFor='lc'>Which workshop does the apprentice call their home? <br/>
                           <select
+                          className='mt-1'
                                 id="lc"
                                 {...register("lc", { required: "LC selection is required" })}
                                 defaultValue=""
@@ -81,6 +83,7 @@ const SecondPage = () => {
                         {/* role Input */}
                         <label htmlFor='role'>What role does the apprentice play in the making of the masterpiece <br/>
                             <select
+                            className='mt-1'
                                 id="role"
                                 {...register("role", { required: "role selection is required" })}
                                 defaultValue=""
@@ -98,6 +101,7 @@ const SecondPage = () => {
                         {/* first_conf Input */}
                         <label htmlFor='first_conf'>Is this the apprentice's first time entering the forge? <br/>
                             <select
+                            className='mt-1'
                                 id="first_conf"
                                 {...register("first_conf", { required: "First Conference selection is required" })}
                                 defaultValue=""

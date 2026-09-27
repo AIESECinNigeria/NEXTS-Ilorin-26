@@ -73,7 +73,7 @@ const FourthPage = () => {
     };
 
     return (
-        <div className={`${styles.container} pt-5 sm:pt-0 text-white `}>
+        <div className={`${styles.container} md:pr-2 sm:pr-0 sm:pt-0 text-white `}>
             {isLoading && (
                 <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4">
                     {/* Tailwind CSS Animate-Spin Spinner */}
@@ -97,6 +97,7 @@ const FourthPage = () => {
                         {/* next of kin Input */}
                         <label htmlFor='kin'> Who do we call when the apprentice needs an extra pair of hands? <br/>
                             <input
+                            className='mt-1'
                                 id="kin"
                                 {...register("nextOfKin", { required: "Next of Kin is required" })}
                                 type="text"
@@ -108,6 +109,7 @@ const FourthPage = () => {
                         {/* relationship Input */}
                         <label htmlFor='relationship'>What stands their place in your circle of trust?<br/>
                             <input
+                            className='mt-1'
                                 id="relationship"
                                 {...register("relationship", { required: "relationship selection is required" })}
                                 type="text"
@@ -119,6 +121,7 @@ const FourthPage = () => {
                         {/* expectations Input */}
                         <label htmlFor='expectations'>What masterpiece does the apprentice hope to unveil after their time in the forge?<br/>
                             <input
+                            className='mt-1'
                                 id="expectations"
                                 {...register("expectations", { required: "expectations is required" })}
                                 type="text"
@@ -130,6 +133,7 @@ const FourthPage = () => {
                         {/* additionalInfo Input */}
                         <label htmlFor='additionalInfo'>Is there anything the forge should know before the heat rises? <br/>
                             <input
+                            className='mt-1'
                                 id="additionalInfo"
                                 {...register("additionalInfo", { required: "Additional Info is required" })}
                                 type="text"

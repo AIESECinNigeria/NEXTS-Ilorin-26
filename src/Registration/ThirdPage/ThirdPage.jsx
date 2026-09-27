@@ -26,7 +26,7 @@ const ThirdPage = () => {
     };
 
     return (
-        <div className={`${styles.container} pt-5 sm:pt-0 text-white `}>
+        <div className={`${styles.container} md:pr-2 sm:pt-0 text-white `}>
             <div className={`flex sm:justify-end justify-center `}>
                 <div className='py-3 sm:pr-2 text-ink font-aoboshi sm:text-[24px] text-[16px] '>
                     <div className={`bg-[#FF6B00] flex flex-col sm:w-36 w-20 sm:p-2 p-1 pb-7 `}>
@@ -40,6 +40,7 @@ const ThirdPage = () => {
                         {/* Allergy Input */}
                         <label htmlFor='allergies'> What must be kept away from the apprentice <br/>
                             <input
+                            className='mt-1'
                                 id="allergies"
                                 {...register("allergies", { required: "Allergies is required" })}
                                 type="text"
@@ -51,6 +52,7 @@ const ThirdPage = () => {
                         {/* Remedy Input */}
                         <label htmlFor='remedy'>Which workshop does the apprentice call your home? <br/>
                           <input
+                          className='mt-1'
                             id="remedy"
                             {...register("remedy", { required: "Remedy is required" })}
                             type="text"
@@ -62,6 +64,7 @@ const ThirdPage = () => {
                         {/* roomSituation Input */}
                         <label htmlFor='roomSituation'>Will the apprentice you share the workshop with apprentices of another gender <br/>
                             <select
+                            className='mt-1'
                                 id="roomSituation"
                                 {...register("roomSituation", { required: "Room Situation selection is required" })}
                                 defaultValue=""

@@ -28,9 +28,9 @@ const FirstPage = () => {
     };
 
     return (
-        <div className={`${styles.container} pt-5 sm:pt-0 text-white `}>
+        <div className={`${styles.container}  md:pr-2 sm:pt-0 text-white `}>
             <div className={`flex sm:justify-end justify-center `}>
-                <div className='py-3 sm:pr-2 text-[#1A1B1E] font-aoboshi sm:text-[24px] text-[16px] '>
+                <div className='py-1.5 sm:pr-2 text-[#1A1B1E] font-aoboshi sm:text-[24px] text-[16px] '>
                     <div className={`bg-[#FF6B00] flex flex-col sm:w-36 w-20 sm:p-2 p-1 pb-7 `}>
                         <div className={`flex justify-around items-center h-[20px] `}>
                             <Progress value={progress} max={100}  />
@@ -40,31 +40,34 @@ const FirstPage = () => {
                         </div>
 
                         {/* Full Name Input */}
-                        <label htmlFor='name'> What do we call the apprentice? <br/>
+                        <label  htmlFor='name'> What do we call the apprentice? 
                             <input
+                                className='mt-0.5'
                                 id="name"
                                 {...register("fullName", { required: "Full Name is required" })}
                                 type="text"
                                 placeholder='Michelangelo Buonarroti'
                             />
-                            {errors.fullName && <p className="text-sm text-red-200 mt-1">{errors.fullName.message}</p>}
+                            {errors.fullName && <p className="text-sm text-red-200 mt-0.5">{errors.fullName.message}</p>}
                         </label>
 
                         {/* Phone Number Input */}
                         <label htmlFor='number'>How do we reach the master? <br/>
                             <span className='text-[#1a1b1e3c] '>{`(Phone Number)`}</span> <br/>
                             <input
+                            className='mt-0.5'
                                 id="number"
                                 {...register("number", { required: "Phone Number is required" })}
                                 type="text"
                                 placeholder='Your golden ratio...'
                             />
-                            {errors.number && <p className="text-sm text-red-200 mt-1">{errors.number.message}</p>}
+                            {errors.number && <p className="text-sm text-red-200 mt-0.5">{errors.number.message}</p>}
                         </label>
 
                         {/* Gender Input */}
                         <label htmlFor='gender'>What is your gender? <br/>
                             <select
+                            className='mt-0.5'
                                 id="gender"
                                 {...register("gender", { required: "Gender selection is required" })}
                                 defaultValue=""
@@ -73,23 +76,24 @@ const FirstPage = () => {
                                 <option value="female">Female</option>
                                 <option value="male">Male</option>
                             </select>
-                            {errors.gender && <p className="text-sm text-red-200 mt-1">{errors.gender.message}</p>}
+                            {errors.gender && <p className="text-sm text-red-200 mt-0.5">{errors.gender.message}</p>}
                         </label>
 
                         {/* Email Input */}
                         <label htmlFor='email'>Where should we send the artist's correspondence? <br/>
                             <span className='text-[#1a1b1e3c] '>{`(Email Address)`}</span> <br/>
                             <input
+                            className='mt-0.5'
                                 id="email"
                                 {...register("email", { required: "Email is required" })}
                                 type="email"
                                 placeholder='Your workshop digital address...'
                             />
-                            {errors.email && <p className="text-sm text-red-200 mt-1">{errors.email.message}</p>}
+                            {errors.email && <p className="text-sm text-red-200 mt-0.5">{errors.email.message}</p>}
                         </label>
                     </div>
 
-                    <div className={`flex justify-between items-center mt-3 relative `}>
+                    <div className={`flex justify-between items-center mt-1.5 relative `}>
                         <button type="button" onClick={() => navigate("/")} className={`bg-white text-black text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
                             <img src='/images/left.png' className='w-[20px] h-[20px] object-contain no-repeat ' alt="back icon" />
                             <p>BACK</p>

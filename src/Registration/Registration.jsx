@@ -35,7 +35,7 @@ const Registration = () => {
             <img src='/images/smpuzzly.png' alt='puzzle piece' className='h-2 w-auto ' />
             <img src='/images/logowhite.png' alt='logo' className='h-2 w-auto ' />
         </div>
-        <div className={`font-aoboshi h-full flex flex-col justify-between pt-3 sm:py-3 pl-2 top-0 left-0 sm:fixed `}>
+        <div className={`font-aoboshi h-full flex flex-col justify-between pt-1 sm:py-3 pl-2 top-0 left-0 sm:fixed `}>
             <p className={`text-[#FF6B00] text-[4rem] sm:block hidden `}>...how ready <br/> are you...</p>
             <p className={`text-[#F4F2ED] text-[30px] sm:hidden block `}>...how ready are you...</p>
             <img src='/images/nextsLogo.png' alt='logo' className={`w-[150px] h-[50px] object-cover sm:block hidden `} />
