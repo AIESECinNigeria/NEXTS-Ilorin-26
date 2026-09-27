@@ -1,5 +1,6 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Faculty+Glyphic&display=swap");
+@import "tailwindcss";
+
 
 /* Figma styles: NEXTS/1, NEXTS/2, NEXTS/3 */
 @theme {
@@ -25,6 +26,7 @@
       transform: scaleY(1);
     }
   }
+}
 
 
 .faculty-glyphic-regular {
@@ -126,7 +128,6 @@ p {
   img {
     max-width: none;
   }
-}
 
 @layer utilities {
   /* Figma gives button labels a 0.5px stroke in their own colour, which thickens the glyphs slightly */
