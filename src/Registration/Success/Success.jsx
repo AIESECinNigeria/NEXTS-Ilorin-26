@@ -1,93 +1,29 @@
-import { motion } from 'framer-motion'
-import ForgeFrame, { Watermark } from '../../components/ForgeFrame'
-import { GlassFilterDefs, GlassLine } from '../../components/GlassText'
-import useViewport from '../../hooks/useViewport'
-import { IMAGES } from '../../content'
-import { drawIn, fadeFrom, slideIn } from '../../motion'
+import React from 'react'
+import styles from './Success.module.css'
 
-// "Registration successful" — built on the same orange frame as Hero 01/02.
-// Positions were measured from Figma screenshots (Hero desktop frame, Mobile 14).
 const Success = () => {
-  const { isMobile } = useViewport()
-
   return (
-    <main className="relative h-dvh w-full overflow-hidden bg-ink">
-      <GlassFilterDefs />
-      <ForgeFrame mobile={isMobile} mobileHeader={{ src: IMAGES.mHeader01, top: 40 }}>
-        <h1 className="sr-only">Registration successful! You're now on your way to the place where masterpieces are forged!</h1>
-        {isMobile ? <Mobile /> : <Desktop />}
-      </ForgeFrame>
-    </main>
-  )
-}
-
-function Desktop() {
-  const big = 'absolute text-[120px] leading-30 tracking-[-3.6px] whitespace-nowrap uppercase'
-  const small = 'absolute text-[64px] leading-16 tracking-[-1.92px] whitespace-nowrap uppercase'
-  return (
-    <>
-      <Watermark />
-
-      <motion.img
-        {...fadeFrom({ y: 40 }, 0.3, 1.4)}
-        src={IMAGES.car}
-        alt="Black London taxi with an Ilorin number plate"
-        className="absolute top-84.25 left-53.5 h-131.75 w-231.75 object-contain"
-      />
-
-      <motion.p {...slideIn('left', 0.5)} aria-hidden className={`${big} top-38.25 left-30`}>Registration</motion.p>
-      <motion.p {...slideIn('right', 0.6)} aria-hidden className={`${big} top-68.5 right-30`}>Successful!</motion.p>
-
-      <motion.div {...slideIn('left', 0.8)} aria-hidden className={`${small} top-116 left-30`}>
-        <p>You&apos;re</p>
-        <p>now on</p>
-        <p>your</p>
-        <p>way</p>
-      </motion.div>
-      <motion.div {...slideIn('right', 0.9)} aria-hidden className={`${small} top-163.5 right-30 text-right`}>
-        <p>To the</p>
-        <p>place where</p>
-        <p>masterpieces</p>
-        <p>are forged!</p>
-      </motion.div>
-
-      <motion.img {...drawIn(0.6)} src={IMAGES.ruleBottom} alt="" className="absolute top-240 left-30 h-px w-300" />
-    </>
-  )
-}
-
-function Mobile() {
-  const block = 'absolute inset-x-0 text-center text-[40px] leading-10 tracking-[-1.2px] uppercase'
-  return (
-    <>
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 text-center text-[100px] leading-[111.407px] tracking-[-10px] opacity-70 select-none">
-        <GlassLine from={{ y: -40 }} className="absolute inset-x-0 top-18.5">NEXTS</GlassLine>
-        <GlassLine from={{ y: 40 }} className="absolute inset-x-0 top-127.75">ILORIN</GlassLine>
-      </div>
-
-      <motion.div {...fadeFrom({ y: -20 }, 0.4)} aria-hidden className={`${block} top-40.25`}>
-        <p>Registration</p>
-        <p>successful</p>
-      </motion.div>
-
-      <motion.img
-        {...fadeFrom({ y: 24 }, 0.3, 1.4)}
-        src={IMAGES.car}
-        alt="Black London taxi with an Ilorin number plate"
-        className="absolute top-63.75 left-0 h-55.5 w-97.75 object-contain"
-      />
-
-      <motion.div {...slideIn('left', 0.7, 30)} aria-hidden className={`${block} top-115`}>
-        <p>You&apos;re now</p>
-        <p>on your way</p>
-      </motion.div>
-      <motion.div {...slideIn('right', 0.85, 30)} aria-hidden className={`${block} top-149.25`}>
-        <p>To the</p>
-        <p>place where</p>
-        <p>masterpieces</p>
-        <p>are forged!</p>
-      </motion.div>
-    </>
+    <div className={` ${styles.container} h-full min-h-screen font-aoboshi text-white `}>
+        <div className='flex justify-center md:mx-10 sm:mx-4 mx-2 sm:mt-3 mt-2 '>
+            <div className='w-full flex sm:flex-row flex-col justify-between sm:items-center border-t-white border-t-[1px] border-b-[1px] border-b-white font-faculty sm:text-[16px] text-[10px] '>
+                <p>FROM CC IJOYE</p>
+                <p>DISPATCHED VIA THE BATCAVE</p>
+                <p> </p>
+            </div>
+            <img src='/images/logonexts.png' className=' border-b-[1px] border-b-white sm:h-3 h-2 ' alt='logo' />
+        </div>
+        <div className='sm:bg-none bg-[url("/images/smnextsBg2.png")] bg-contain bg-no-repeat bg-top flex flex-col sm:px-10 px-2 sm:pt-0 pt-4 sm:mb-2 mb-0 items-center sm:text-[8rem] text-[2.5rem] '>
+            <div className='sm:self-start '>REGISTRATION</div>
+            <div className='sm:self-end '>SUCCESSFUL!</div>
+        </div>
+        <div className={`absolute sm:top-3/5 top-1/4 sm:left-1/8 z-8 sm:mt-4 mt-1 `}>
+            <img src='/images/car.png' className='w-100 ' alt='car' />
+        </div>
+        <div className='flex flex-col sm:mt-0 mt-5 sm:px-10 px-2 sm:pt-0 pt-2 items-center sm:text-[4rem] text-[2.5rem]  '>
+            <div className='sm:self-start sm:w-30 w-auto sm:z-1 z-9 sm:text-left text-center '>YOU'RE NOW ON YOUR WAY</div>
+            <div className='sm:bg-none bg-[url("/images/smnextsBg3.png")] bg-contain bg-no-repeat bg-top sm:self-end sm:w-40 w-auto z-10 sm:text-right text-center pt-3 sm:pt-0 mb-10 '>TO THE PLACE WHERE MASTERPIECES ARE FORGED</div>
+        </div>
+    </div>
   )
 }
 

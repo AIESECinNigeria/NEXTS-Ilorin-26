@@ -16,7 +16,11 @@
   --font-aoboshi: "Aoboshi One", serif;
   --font-faculty: "Faculty Glyphic", sans-serif;
 
-  
+  /*
+   * Spacing stays at Tailwind's default (4px per step) because the hero screens are built on it.
+   * The registration pages use 16px steps; they get that by setting --spacing: 16px on their own
+   * containers (Registration.module.css, Success.module.css), so both work side by side.
+   */
 
   --animate-largen: largen 2s ease-in-out;
   @keyframes largen {
@@ -31,8 +35,13 @@
   }
 }
 
-
+/*
+ * Element defaults live in the base layer so Tailwind utilities always win over them.
+ * (Unlayered element rules would beat every utility class and break the hero layouts.)
+ */
 @layer base {
+  /* No height: 100% on html/body/#root: the registration pages use h-full and need to grow with
+     their content. The hero screens size themselves with h-dvh instead. */
   body {
     @apply bg-ink font-display text-cream antialiased;
     margin: 0;

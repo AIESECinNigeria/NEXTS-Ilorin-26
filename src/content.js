@@ -33,20 +33,6 @@ export const IMAGES = {
   mTopbarIcon: img('m-topbar-icon.svg'),
   mHero03Photo: img('m-hero03-photo.png'),
   mHero04Photo: img('m-hero04-photo.png'),
-  car: img('car.png'), // success page
-  // registration pages (teammate's exports)
-  regBackground: img('backgB.png'), // dark texture + "NE XTS" outline, desktop
-  regTexture: img('texture.png'),
-  regNextsOutline: img('smnextsBg.png'), // "NEXTS" outline behind the mobile buttons
-  regMosque: img('firstReg.png'), // full 1440×1024 frame export
-  regMosqueMobile: img('smbuilding.png'),
-  regHorse: img('horsey.png'),
-  regRider: img('guyonhorse.png'),
-  regPot: img('coolmetal.png'),
-  regPuzzle: img('puzzly.png'),
-  regLogo: img('nextsLogo.png'), // orange NEXTS logo
-  arrowBack: img('left.png'),
-  arrowNext: img('right.png'),
 }
 
 export const TIMING = {

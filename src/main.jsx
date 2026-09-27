@@ -5,10 +5,10 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import Registration from './Registration/Registration.jsx'
-
+// File is Success.jsx — the import must match its case or the build fails on Linux hosts
 import Success from './Registration/Success/Success.jsx'
 
-
+// Example NotFound page
 const NotFound = () => <h1>Page Not Found</h1>
 
 const router = createBrowserRouter([
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
   },
 ])
 
-
+// Rendering to DOM
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
