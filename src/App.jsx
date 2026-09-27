@@ -9,7 +9,7 @@ import { TIMING } from './content'
 
 import './App.css'
 
-const STEPS = [HeroIntro, HeroCall, HeroWorkshop, HeroReady, RegistrationPlaceholder]
+const STEPS = [HeroIntro, HeroCall, HeroWorkshop, HeroReady]
 
 
 function App() {
@@ -40,13 +40,13 @@ function App() {
   )
 }
 
-function RegistrationPlaceholder() {
-  return (
-    <section className="flex h-full items-center justify-center bg-ink">
-      <p className="text-2xl text-nexts">Registration form goes here</p>
-    </section>
-  )
-}
+// function RegistrationPlaceholder() {
+//   return (
+//     <section className="flex h-full items-center justify-center bg-ink">
+//       <p className="text-2xl text-nexts">Registration form goes here</p>
+//     </section>
+//   )
+// }
 
 export default App
 
