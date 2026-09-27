@@ -111,7 +111,7 @@ const SecondPage = () => {
                     </div>
 
                     <div className={`flex justify-between items-center mt-3 relative `}>
-                        <button type="button" className={`bg-white text-black text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
+                        <button type="button" onClick={() => navigate("/registration/step-one")} className={`bg-white text-black text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
                             <img src='/images/left.png' className='w-[20px] h-[20px] object-contain no-repeat ' alt="back icon" />
                             <p>BACK</p>
                         </button>

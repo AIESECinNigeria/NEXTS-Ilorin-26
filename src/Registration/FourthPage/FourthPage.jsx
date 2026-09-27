@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useFormContext, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import styles from './FourthPage.module.css';
 import Progress from '../../Components/progress';
 
 const FourthPage = () => {
-    const { register, control, trigger, formState: { errors } } = useFormContext();
+    const { register, control, trigger, handleSubmit, formState: { errors } } = useFormContext();
     const navigate = useNavigate();
   
     const inputValue1 = useWatch({ control, name: "nextOfKin" }) || "";
@@ -19,17 +20,32 @@ const FourthPage = () => {
     if (inputValue3.trim().length !== 0) progress += 25;
     if (inputValue4.trim().length !== 0) progress += 25;
 
-    const onFinalSubmit = (allFormData) => {
-      console.log("Submitting complete form to API:", allFormData);
-      // axios.post('/api/submit', allFormData);
-      navigate("/success"); 
+    const onFinalSubmit = async (allFormData) => {
+        console.log("EXACT JSON SENT TO BACKEND:", JSON.stringify(allFormData, null, 2));
+        console.log("Submitting complete form to API:", allFormData);
+        try {
+            const response = await axios.post('https://ain-backend.fly.dev/api/nexts-ilorin/register', allFormData, {
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            });
+        
+            console.log("Registration successful!", response.data);
+            navigate("/success");
+        
+        } catch (error) {
+            console.error('Registration API error:', error);
+            const errorMessage = error.response?.data?.error || 'Failed to register. Please try again.';
+            alert(`Backend error: ${errorMessage}`);
+        }
     };
 
     return (
         <div className={`${styles.container} pt-5 sm:pt-0 text-white `}>
             <div className={`flex sm:justify-end justify-center `}>
                 <div className='py-3 sm:pr-2 text-[#1A1B1E] font-aoboshi sm:text-[24px] text-[16px] '>
-                    <div className={`bg-[#FF6B00] flex flex-col sm:w-36 w-20 sm:p-2 p-1 pb-7 `}>
+                    
+                    <form onSubmit={handleSubmit(onFinalSubmit)} className={`bg-[#FF6B00] flex flex-col sm:w-36 w-20 sm:p-2 p-1 pb-7 `}>
                         <div className={`flex justify-around items-center h-[20px] `}>
                             <div className={`w-[60px] sm:w-[120px] h-[10px] bg-[#ffffff] `}></div>
                             <div className={`w-[60px] sm:w-[120px] h-[10px] bg-[#ffffff] `}></div>
@@ -38,7 +54,7 @@ const FourthPage = () => {
                         </div>
 
                         {/* next of kin Input */}
-                        <label htmlFor='dob'> Who do we call when the apprentice needs an extra pair of hands? <br/>
+                        <label htmlFor='kin'> Who do we call when the apprentice needs an extra pair of hands? <br/>
                             <input
                                 id="kin"
                                 {...register("nextOfKin", { required: "Next of Kin is required" })}
@@ -80,18 +96,19 @@ const FourthPage = () => {
                             />
                             {errors.additionalInfo && <p className="text-sm text-red-200 mt-1">{errors.additionalInfo.message}</p>}
                         </label>
-                    </div>
+                    </form>
 
                     <div className={`flex justify-between items-center mt-3 relative `}>
-                        <button type="button" className={`bg-white text-black text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
+                        <button type="button" onClick={() => navigate("/registration/step-three")} className={`bg-white text-black text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
                             <img src='/images/left.png' className='w-[20px] h-[20px] object-contain no-repeat ' alt="back icon" />
                             <p>BACK</p>
                         </button>
                         <div className='hidden sm:block '>
                             <img src='/images/puzzly.png' className='w-[180px] h-[180px] object-contain no-repeat absolute left-15 bottom-0 ' alt="decorative puzzle" />
                         </div>
-                        <button type="button" onClick={onFinalSubmit} className={`bg-[#FF6B00] text-white text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
-                            <p>NEXT</p>
+                        
+                        <button type="submit" onClick={handleSubmit(onFinalSubmit)} className={`bg-[#FF6B00] text-white text-[16px] flex justify-between items-center font-faculty p-[0.5rem] `}>
+                            <p>SUBMIT</p>
                             <img src='/images/right.png' className='w-[20px] h-[20px] object-contain no-repeat ' alt="next icon" />
                         </button>
                     </div>
