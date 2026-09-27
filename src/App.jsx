@@ -6,13 +6,26 @@ import HeroWorkshop from './screens/HeroWorkshop'
 import HeroReady from './screens/HeroReady'
 import { GlassFilterDefs } from './components/GlassText'
 import { TIMING } from './content'
+import heroImg from './assets/hero.png'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+
+import './App.css'
+import { useNavigate } from "react-router-dom";
+import FirstPage from './Registration/FirstPage/FirstPage'
+import Registration from './Registration/Registration'
 
 const STEPS = [HeroIntro, HeroCall, HeroWorkshop, HeroReady, RegistrationPlaceholder]
 
-export default function App() {
+
+function App() {
   const [step, setStep] = useState(0)
   const next = useCallback(() => setStep((s) => Math.min(s + 1, STEPS.length - 1)), [])
   const Screen = STEPS[step]
+  // const navigate = useNavigate();
+  // const handleRegister = async () => {
+  //   navigate("/registration/step-one");
+  // };
 
   return (
     <main className="relative h-dvh w-full overflow-hidden bg-ink">
@@ -33,7 +46,6 @@ export default function App() {
   )
 }
 
-// Stand-in until the "...how ready are you..." form screens (Hero 9, 10, 12) are built.
 function RegistrationPlaceholder() {
   return (
     <section className="flex h-full items-center justify-center bg-ink">
@@ -41,3 +53,6 @@ function RegistrationPlaceholder() {
     </section>
   )
 }
+
+export default App
+

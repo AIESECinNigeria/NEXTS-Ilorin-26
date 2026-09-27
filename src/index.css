@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Faculty+Glyphic&display=swap");
 
 /* Figma styles: NEXTS/1, NEXTS/2, NEXTS/3 */
 @theme {
@@ -9,6 +10,65 @@
   --font-display: "Aoboshi One", ui-sans-serif, system-ui, sans-serif;
   --font-glyphic: "Faculty Glyphic", ui-serif, serif;
   --font-creato: "Creato Display", ui-sans-serif, system-ui, sans-serif;
+
+  --font-aoboshi: "Aoboshi One", serif;
+  --font-faculty: "Faculty Glyphic", sans-serif;
+  --spacing: 16px;
+  --animate-largen: largen 2s ease-in-out;
+  @keyframes largen {
+    0% {
+      opacity: 25%;
+      transform: scaleY(0.5);
+    },
+    100% {
+      opacity: 100%;
+      transform: scaleY(1);
+    }
+  }
+
+
+.faculty-glyphic-regular {
+  font-family: "Faculty Glyphic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* @font-face {
+  font-family: "Aoboshi One", serif;
+  font-style: normal;
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/Oswald.woff2") format("woff2");
+} */
+
+/* :root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+  --social-bg: rgba(244, 243, 236, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
 }
 
 @layer base {
@@ -22,6 +82,46 @@
     @apply bg-ink font-display text-cream antialiased;
     overflow: hidden;
   }
+} */
+
+body {
+  margin: 0;
+}
+
+#root {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
 
   img {
     max-width: none;
