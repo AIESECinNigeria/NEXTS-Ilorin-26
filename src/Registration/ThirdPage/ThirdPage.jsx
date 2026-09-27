@@ -61,12 +61,15 @@ const ThirdPage = () => {
 
                         {/* roomSituation Input */}
                         <label htmlFor='roomSituation'>Will the apprentice you share the workshop with apprentices of another gender <br/>
-                            <input
+                            <select
                                 id="roomSituation"
                                 {...register("roomSituation", { required: "Room Situation selection is required" })}
-                                type="text"
-                                placeholder='Choose your workshop arrangement'
-                            />
+                                defaultValue=""
+                            >
+                                <option value="" disabled>Choose your workshop arrangement</option>
+                                <option value="yes">YES</option>
+                                <option value="no">NO</option>
+                            </select>
                             {errors.roomSituation && <p className="text-sm text-red-200 mt-1">{errors.roomSituation.message}</p>}
                         </label>
                     </div>
