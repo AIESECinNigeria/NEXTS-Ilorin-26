@@ -62,7 +62,6 @@ export const AUDIO = {
 
 export const TIMING = {
   fade: 0.9, // seconds, fade in/out of every screen
-  introHold: 2600, // ms Hero 01 stays on screen after fading in
   workshopHold: 2200, // ms Hero 03 stays after its text finishes typing
   typeSpeed: 32, // ms per character
   holdToFill: 1600, // ms of holding needed to fill the gauge
