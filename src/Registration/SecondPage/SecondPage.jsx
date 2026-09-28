@@ -21,6 +21,7 @@ const LCS = [
   { value: 'lagos', label: 'Lagos' },
   { value: 'port_harcourt', label: 'Port Harcourt' },
   { value: 'zaria', label: 'Zaria' },
+  { value: 'international', label: 'International' },
 ]
 
 const YES_NO = [
