@@ -12,7 +12,7 @@ const UNLOCK_EVENTS = ['pointerdown', 'pointerup', 'mousedown', 'touchend', 'cli
 
 // Theme song for the whole site. Mounted above the router so it keeps playing between pages.
 // Browsers block sound until the visitor interacts, so it starts on the first click/tap/key —
-// in practice the "Start the furnace" button on Hero 01. It ends 10s after the success page opens.
+// in practice the "Start the furnace" button on the first screen. It ends 10s after the success page opens.
 export default function BackgroundMusic({ router }) {
   const audio = useRef(null)
   const fade = useRef(0)

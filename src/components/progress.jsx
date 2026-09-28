@@ -1,5 +1,7 @@
 import React from 'react';
 
+// Old progress bar from the first version of the form. Not used anywhere now
+// (the form draws its own bars in Registration.jsx), so it can be deleted.
 export default function Progress({ value = 0, max = 100 }) {
   const percentage = Math.min(100, Math.max(0, (value / max) * 100));
 
@@ -20,7 +22,7 @@ export default function Progress({ value = 0, max = 100 }) {
         <div style={{
           height: '10px',
           width: `${percentage}%`,
-          backgroundColor: '#ffffff', // Tailwind blue-500
+          backgroundColor: '#ffffff',
           borderRadius: 'inherit',
           transition: 'width 0.3s ease-in-out' // Smooth animation when value changes
         }} />

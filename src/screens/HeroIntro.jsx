@@ -6,8 +6,9 @@ import { IMAGES } from '../content'
 import { drawIn, fadeFrom, slideIn } from '../motion'
 
 
-// Hero 01 waits for the visitor: "Start the furnace" is the tap that lets the browser start the music
-// (BackgroundMusic listens for the first click anywhere), then we move on to Hero 02.
+// First intro screen: "A rare call from the forge". It waits for the visitor to press
+// "Start the furnace". That press is what browsers need before they allow sound, so it also starts the
+// music (BackgroundMusic listens for the first click anywhere on the page), then we move on.
 export default function HeroIntro({ onNext }) {
   const { isMobile } = useViewport()
 
@@ -125,7 +126,7 @@ function Mobile() {
       <motion.p {...slideIn('left', 0.5, 30)} aria-hidden className={`${word} top-73 left-3.75`}>A rare</motion.p>
       <motion.p {...slideIn('left', 0.65, 30)} aria-hidden className={`${word} top-93 left-3.75`}>from</motion.p>
 
-      {/* Figma layers the same anvil three times: two at 75%, one colour-burned */}
+      {/* The same anvil image stacked three times (two semi-transparent, one colour-burned) for a deeper glow */}
       <motion.div {...fadeFrom({ y: 24 }, 0.3, 1.4)} className="absolute top-67 left-3.75 h-50.75 w-90.25">
         <img src={IMAGES.hero01AnvilOverlay} alt="" className="absolute inset-0 size-full object-cover opacity-75" />
         <img src={IMAGES.hero01AnvilOverlay} alt="" className="absolute inset-0 size-full object-cover opacity-75" />

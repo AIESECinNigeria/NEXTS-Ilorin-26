@@ -1,5 +1,8 @@
 import { SelectField, TextField } from '../fields'
 
+// Page 1 of the form: name, phone, gender, email.
+// The layout, buttons and validation flow live in Registration.jsx; this file only lists the questions.
+
 const GENDERS = [
   { value: 'female', label: 'Female' },
   { value: 'male', label: 'Male' },

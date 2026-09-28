@@ -2,11 +2,17 @@ import { useEffect, useMemo, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import { TIMING } from '../content'
 
-
+// Types text out one character at a time, with a blinking cursor. Calls onDone when finished.
+// `segments` lets parts of the text have their own style:
+//   [{ text: 'Hello ' }, { text: 'world', className: 'text-nexts' }]
+// Every character is on the page from the start, just invisible until "typed", so the text never
+// reflows while typing. Screen readers get the full sentence straight away via aria-label.
+// Visitors who ask their device for reduced motion see the full text immediately.
 export default function Typewriter({ segments, as: Tag = 'p', className = '', delay = 0, speed = TIMING.typeSpeed, onDone }) {
   const reduceMotion = useReducedMotion()
+  // Flatten the segments into single characters, remembering which segment each one belongs to
   const chars = useMemo(() => segments.flatMap((seg, s) => [...seg.text].map((ch) => ({ ch, s }))), [segments])
-  const [count, setCount] = useState(reduceMotion ? chars.length : 0)
+  const [count, setCount] = useState(reduceMotion ? chars.length : 0) // how many characters are visible
 
   useEffect(() => {
     if (reduceMotion) {
@@ -52,6 +58,7 @@ export default function Typewriter({ segments, as: Tag = 'p', className = '', de
   )
 }
 
+// Blinking cursor shown after the last typed character
 function Caret() {
   return <span className="absolute top-[0.1em] right-[-0.1em] h-[0.9em] w-[3px] animate-pulse bg-current" />
 }

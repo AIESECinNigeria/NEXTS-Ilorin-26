@@ -1,5 +1,8 @@
 import { TextField } from '../fields'
 
+// Page 4 (last) of the form: next of kin, relationship, expectations, anything else.
+// Its button reads "Submit" and sends the whole form (see Registration.jsx and submit.js).
+
 const FourthPage = () => (
   <>
     <TextField

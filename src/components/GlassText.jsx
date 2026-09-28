@@ -2,6 +2,9 @@ import { motion } from 'framer-motion'
 import { fadeFrom } from '../motion'
 
 
+// SVG filter that makes text look like glass: a faint white fill, a soft shine, a bright edge on the
+// top-left and a slight shadow on the bottom-right. Mount <GlassFilterDefs /> once on any page that
+// uses glass text; the filter is then applied with style={{ filter: 'url(#nexts-glass)' }}.
 export function GlassFilterDefs() {
   return (
     <svg aria-hidden width="0" height="0" className="absolute">
@@ -40,6 +43,7 @@ export function GlassFilterDefs() {
 }
 
 
+// One line of glass text that fades in from `from` (e.g. { y: -40 } = starts 40px higher)
 export function GlassLine({ children, from, delay = 0, className = '' }) {
   return (
     <motion.p {...fadeFrom(from, delay, 1.6)} className={`text-white ${className}`} style={{ filter: 'url(#nexts-glass)' }}>

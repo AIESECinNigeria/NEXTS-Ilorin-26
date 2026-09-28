@@ -5,7 +5,11 @@ import useViewport from '../hooks/useViewport'
 import { IMAGES } from '../content'
 import { EASE, stepItem } from '../motion'
 
-// Figma: question Aoboshi 24/28 (mobile 16/20) at -3%; input text Faculty Glyphic 16/24 (mobile 12/16)
+// Form building blocks used by the page files: TextField, DateField and SelectField.
+// Each one shows a question label, the input, and an error message when the answer is missing or wrong.
+// They must be used inside the form in Registration.jsx (they read it through useFormContext).
+
+// Sizes for desktop and mobile: question text, gap under it, input box, input text, error text, dropdown rows/icon
 const STYLES = {
   desktop: {
     label: 'text-[24px] leading-7 tracking-[-0.72px]',
@@ -27,6 +31,7 @@ const STYLES = {
   },
 }
 
+// Look shared by every input and dropdown: see-through cream box with a thin dark border
 const BOX = 'w-full border border-ink/25 bg-cream/25 font-glyphic text-ink outline-none transition-colors placeholder:text-ink/40 focus:border-ink/70 aria-invalid:border-ink'
 
 function useStyles() {
@@ -74,6 +79,11 @@ function Field({ id, label, hint, hintBreak, error, children }) {
   )
 }
 
+// Plain text input.
+//   name               form field name (what gets sent to the backend, see submit.js)
+//   hint               grey note after the question, e.g. "(Phone Number)"; hintBreak puts it on its own line
+//   mobilePlaceholder  shorter placeholder for phones (optional)
+//   rules              react-hook-form validation, e.g. { required: 'Email is required' }
 export function TextField({ name, label, hint, hintBreak, placeholder, mobilePlaceholder, type = 'text', rules }) {
   const { register, formState: { errors } } = useFormContext()
   const { isMobile } = useViewport()
@@ -155,6 +165,7 @@ function isoToTyped(value = '') {
   return m ? `${m[3]}/${m[2]}/${m[1]}` : value
 }
 
+// Pick-one question. options = [{ value: 'sent to backend', label: 'shown to the visitor' }, …]
 export function SelectField({ name, label, placeholder, options, rules }) {
   const { control, formState: { errors } } = useFormContext()
   const error = errors[name]
@@ -173,7 +184,9 @@ export function SelectField({ name, label, placeholder, options, rules }) {
   )
 }
 
-// Styled like the Figma option lists (Gender, ROLE, First timer, LC…): cream rows under the field.
+// Custom dropdown (used instead of the browser's <select> so the list can be styled): a list of cream
+// rows opens under the field. Works with the mouse, touch and keyboard (arrows, Enter/Space, Esc, Tab).
+// `active` is the row highlighted by the keyboard or mouse; `value` is the one actually chosen.
 function Dropdown({ id, value, onChange, onBlur, options, placeholder, invalid }) {
   const s = useStyles()
   const root = useRef(null)
@@ -181,6 +194,7 @@ function Dropdown({ id, value, onChange, onBlur, options, placeholder, invalid }
   const [active, setActive] = useState(-1)
   const selectedIndex = options.findIndex((o) => o.value === value)
 
+  // Close when the visitor taps or clicks anywhere else
   useEffect(() => {
     if (!open) return
     const closeOnOutside = (e) => !root.current?.contains(e.target) && setOpen(false)
@@ -188,6 +202,7 @@ function Dropdown({ id, value, onChange, onBlur, options, placeholder, invalid }
     return () => document.removeEventListener('pointerdown', closeOnOutside)
   }, [open])
 
+  // Open with the current choice (or the first row) highlighted
   const show = () => {
     setActive(Math.max(selectedIndex, 0))
     setOpen(true)

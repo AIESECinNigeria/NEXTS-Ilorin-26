@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-// Teammate's submit logic (moved out of FourthPage.jsx unchanged): map the form to the API payload and post it.
+// Sends the finished registration to the backend. Renames the form's field names to the names the API
+// expects and turns the "true"/"false" answers into real booleans. Throws if the request fails
+// (Registration.jsx catches it and shows the error).
 export async function submitRegistration(allFormData) {
   const payload = {
     // Core Profile Information
