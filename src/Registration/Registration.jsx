@@ -238,7 +238,7 @@ function DesktopLayout({ index, questions, onSubmit, onBack, busy }) {
 
           <motion.div {...fadeFrom({ y: 16 }, 0.6, 0.9)} className="absolute top-227 left-182.5 flex w-147.5 justify-between">
             <NavButton kind="back" onClick={onBack} disabled={busy} />
-            <NavButton kind="next" disabled={busy} />
+            <NavButton kind="next" last={index === STEPS.length - 1} disabled={busy} />
           </motion.div>
         </form>
       </Stage>
@@ -300,7 +300,7 @@ function MobileLayout({ index, questions, onSubmit, onBack, busy }) {
           <motion.div {...fadeFrom({ y: 16 }, 0.6, 0.9)} className="relative mt-auto flex flex-col gap-4">
           <img src={IMAGES.regNextsOutline} alt="" aria-hidden className="pointer-events-none absolute -top-17.75 left-0 w-full opacity-50" />
           <NavButton kind="back" mobile onClick={onBack} disabled={busy} />
-          <NavButton kind="next" mobile disabled={busy} />
+          <NavButton kind="next" last={index === STEPS.length - 1} mobile disabled={busy} />
           </motion.div>
         </div>
       </form>
@@ -355,7 +355,7 @@ function StepBars({ index, mobile }) {
   )
 }
 
-function NavButton({ kind, mobile, onClick, disabled }) {
+function NavButton({ kind, mobile, onClick, disabled, last }) {
   const isBack = kind === 'back'
   const arrow = (
     <motion.img
@@ -379,7 +379,8 @@ function NavButton({ kind, mobile, onClick, disabled }) {
       } ${mobile ? 'relative h-10 w-full gap-1 text-[12px] leading-[15px]' : 'h-13 gap-2 px-6 text-[16px] leading-5'}`}
     >
       {isBack && arrow}
-      <span>{isBack ? 'Back' : 'Next'}</span>
+      {/* The last page sends the form, so its button reads Submit */}
+      <span>{isBack ? 'Back' : last ? 'Submit' : 'Next'}</span>
       {!isBack && arrow}
     </motion.button>
   )
