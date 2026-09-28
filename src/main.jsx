@@ -32,7 +32,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    {/* Outside the router so the song doesn't restart when the page changes */}
-    <BackgroundMusic />
+    {/* Outside the router so the song doesn't restart when the page changes;
+        it gets the router only to know when the visitor reaches /success */}
+    <BackgroundMusic router={router} />
   </React.StrictMode>
 )
