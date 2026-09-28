@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useAnimationControls } from 'framer-motion'
-import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 import useViewport from '../hooks/useViewport'
 import { IMAGES } from '../content'
 import { EASE, stepItem } from '../motion'
@@ -95,41 +95,64 @@ export function TextField({ name, label, hint, hintBreak, placeholder, mobilePla
   )
 }
 
-// Native date picker; the placeholder is drawn on top while it's empty (date inputs can't show one)
-export function DateField({ name, label, placeholder, rules, max }) {
-  const { register, control, formState: { errors } } = useFormContext()
-  const value = useWatch({ control, name })
+// Typed date: the visitor types DD/MM/YYYY (slashes are added for them). The form stores the
+// date as YYYY-MM-DD once it's a real date — the format the API expects — and the raw text until then.
+export function DateField({ name, label, placeholder, rules }) {
+  const { control, formState: { errors } } = useFormContext()
   const s = useStyles()
   const error = errors[name]
 
   return (
     <Field id={name} label={label} error={error}>
-      <div className="relative">
-        <input
-          id={name}
-          type="date"
-          max={max}
-          // Figma shows no calendar icon, so clicking anywhere on the field opens the picker
-          onClick={(e) => {
-            try {
-              e.currentTarget.showPicker?.()
-            } catch {
-              // some browsers only allow it inside certain gestures; typing the date still works
-            }
-          }}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={error ? `${name}-error` : undefined}
-          {...register(name, rules)}
-          className={`peer ${BOX} ${s.box} ${s.text} cursor-pointer [&::-webkit-calendar-picker-indicator]:hidden ${value ? '' : 'text-transparent focus:text-ink'}`}
-        />
-        {!value && (
-          <span className={`pointer-events-none absolute inset-y-0 left-3 flex items-center font-glyphic text-ink/40 peer-focus:hidden ${s.text}`}>
-            {placeholder}
-          </span>
+      <Controller
+        name={name}
+        control={control}
+        rules={rules}
+        render={({ field }) => (
+          <input
+            id={name}
+            ref={field.ref}
+            type="text"
+            inputMode="numeric"
+            autoComplete="bday"
+            maxLength={10}
+            placeholder={placeholder}
+            value={isoToTyped(field.value)}
+            onChange={(e) => {
+              const typed = maskDate(e.target.value)
+              field.onChange(typedToIso(typed) ?? typed)
+            }}
+            onBlur={field.onBlur}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? `${name}-error` : undefined}
+            className={`${BOX} ${s.box} ${s.text}`}
+          />
         )}
-      </div>
+      />
     </Field>
   )
+}
+
+// Keep digits only and add the slashes: "12031998" -> "12/03/1998"
+function maskDate(text) {
+  const d = text.replace(/\D/g, '').slice(0, 8)
+  return d.slice(0, 2) + (d.length > 2 ? '/' + d.slice(2, 4) : '') + (d.length > 4 ? '/' + d.slice(4) : '')
+}
+
+// "12/03/1998" -> "1998-03-12", or null if it's not complete or not a real date (e.g. 31/02)
+function typedToIso(typed) {
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(typed)
+  if (!m) return null
+  const [, dd, mm, yyyy] = m
+  const date = new Date(Number(yyyy), Number(mm) - 1, Number(dd))
+  const real = date.getFullYear() === Number(yyyy) && date.getMonth() === Number(mm) - 1 && date.getDate() === Number(dd)
+  return real ? `${yyyy}-${mm}-${dd}` : null
+}
+
+// Stored "1998-03-12" shows as "12/03/1998"; anything else (half-typed text) shows as it is
+function isoToTyped(value = '') {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value)
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : value
 }
 
 export function SelectField({ name, label, placeholder, options, rules }) {

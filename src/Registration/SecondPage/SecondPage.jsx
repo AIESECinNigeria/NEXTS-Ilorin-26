@@ -1,5 +1,5 @@
 import { DateField, SelectField } from '../fields'
-import { MIN_AGE, ageOn, latestAdultBirthday } from '../steps'
+import { MIN_AGE, ageOn } from '../steps'
 
 const ROLES = ['tm', 'tl', 'lcvp', 'lcp', 'alumni'].map((value) => ({ value, label: value.toUpperCase() }))
 
@@ -21,7 +21,7 @@ const LCS = [
   { value: 'lagos', label: 'Lagos' },
   { value: 'port_harcourt', label: 'Port Harcourt' },
   { value: 'zaria', label: 'Zaria' },
-  { value: 'international', label: 'International' },
+  { value: 'international', label: 'International Delegates' },
 ]
 
 const YES_NO = [
@@ -41,11 +41,16 @@ const SecondPage = () => (
     <DateField
       name="d_o_b"
       label="When did the sculptor take first form?"
-      placeholder="Select your date of birth"
-      max={latestAdultBirthday()}
+      placeholder="DD/MM/YYYY"
       rules={{
         required: 'Date of Birth is required',
-        validate: (value) => ageOn(value) >= MIN_AGE || `You must be at least ${MIN_AGE} years old to register`,
+        validate: (value) => {
+          // A complete, real date is stored as YYYY-MM-DD; anything else is still being typed or impossible
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return 'Enter a valid date as DD/MM/YYYY'
+          const age = ageOn(value)
+          if (age < 0 || age > 120) return 'Enter a valid date as DD/MM/YYYY' // future date or a typo like 1022
+          return age >= MIN_AGE || `You must be at least ${MIN_AGE} years old to register`
+        },
       }}
     />
     <SelectField name="lc" label="Which workshop do you call your home?" placeholder="Choose your LC" options={LCS} rules={{ required: 'LC selection is required' }} />

@@ -55,25 +55,61 @@ const SCENES = [
 
 const HEADLINE = ['...how ready', 'are you...']
 
+const EMPTY_FORM = {
+  fullName: '',
+  number: '',
+  gender: '',
+  email: '',
+  d_o_b: '',
+  lc: '',
+  role: '',
+  first_conf: '',
+  allergies: '',
+  remedy: '',
+  roomSituation: '',
+  nextOfKin: '',
+  relationship: '',
+  expectations: '',
+  additionalInfo: '',
+}
+
+// Answers are kept in sessionStorage so a refresh doesn't wipe them. It lasts only while the tab
+// is open (personal details don't linger on shared computers) and is cleared after submitting.
+const SAVED_FORM_KEY = 'nexts-registration'
+
+function loadSavedForm() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(SAVED_FORM_KEY) || '{}')
+    const form = { ...EMPTY_FORM }
+    for (const key of Object.keys(EMPTY_FORM)) if (typeof saved[key] === 'string') form[key] = saved[key]
+    return form
+  } catch {
+    return { ...EMPTY_FORM }
+  }
+}
+
+function saveForm(values) {
+  try {
+    sessionStorage.setItem(SAVED_FORM_KEY, JSON.stringify(values))
+  } catch {
+    // storage unavailable (private mode etc.) — the form still works, it just won't survive a refresh
+  }
+}
+
+function clearSavedForm() {
+  try {
+    sessionStorage.removeItem(SAVED_FORM_KEY)
+  } catch {
+    // nothing to clear
+  }
+}
+
+const isBlank = (value) => String(value ?? '').trim() === ''
+
 const Registration = () => {
+  const [savedForm] = useState(loadSavedForm) // read once, on first render
   const methods = useForm({
-    defaultValues: {
-      fullName: '',
-      number: '',
-      gender: '',
-      email: '',
-      d_o_b: '',
-      lc: '',
-      role: '',
-      first_conf: '',
-      allergies: '',
-      remedy: '',
-      roomSituation: '',
-      nextOfKin: '',
-      relationship: '',
-      expectations: '',
-      additionalInfo: '',
-    },
+    defaultValues: savedForm,
     mode: 'onBlur',
   })
   const { isMobile } = useViewport()
@@ -90,12 +126,21 @@ const Registration = () => {
     window.scrollTo(0, 0)
   }, [index])
 
+  // Save every change so a refresh keeps the answers
+  const { subscribe } = methods
+  useEffect(() => subscribe({ formState: { values: true }, callback: ({ values }) => saveForm(values) }), [subscribe])
+
   if (index < 0) return <Navigate to={stepUrl(0)} replace />
+
+  // Opened a later page (link, refresh in a new tab) with earlier answers missing? Go back to the first gap.
+  const firstUnfinished = STEPS.findIndex((step, i) => i < index && step.fields.some((f) => isBlank(methods.getValues(f))))
+  if (firstUnfinished >= 0) return <Navigate to={stepUrl(firstUnfinished)} replace />
 
   const onFinalSubmit = async (allFormData) => {
     setIsLoading(true)
     try {
       await submitRegistration(allFormData)
+      clearSavedForm()
       navigate('/success')
     } catch (error) {
       console.error('Registration API error:', error)
@@ -255,7 +300,7 @@ function MobileLayout({ index, questions, onSubmit, onBack, busy }) {
         <div className="absolute inset-0 bg-ink/85" />
       </div>
 
-      <form onSubmit={onSubmit} noValidate className="relative mx-auto flex w-full max-w-[430px] flex-col px-5 pt-6 pb-8">
+      <form onSubmit={onSubmit} noValidate className="relative mx-auto flex w-full max-w-107.5 flex-col px-5 pt-6 pb-8">
         <motion.div {...fadeFrom({ y: -12 }, 0.2, 0.8)} className="relative z-10 flex h-7 items-center justify-between">
           <AnimatePresence mode="wait">
             <motion.img
@@ -376,7 +421,7 @@ function NavButton({ kind, mobile, onClick, disabled, last }) {
       whileTap={{ scale: 0.97 }}
       className={`flex cursor-pointer items-center justify-center font-glyphic uppercase disabled:cursor-wait disabled:opacity-60 ${
         isBack ? 'bg-cream text-ink' : 'bg-nexts text-cream'
-      } ${mobile ? 'relative h-10 w-full gap-1 text-[12px] leading-[15px]' : 'h-13 gap-2 px-6 text-[16px] leading-5'}`}
+      } ${mobile ? 'relative h-10 w-full gap-1 text-[12px] leading-3.75' : 'h-13 gap-2 px-6 text-[16px] leading-5'}`}
     >
       {isBack && arrow}
       {/* The last page sends the form, so its button reads Submit */}

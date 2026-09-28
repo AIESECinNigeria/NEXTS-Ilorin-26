@@ -26,8 +26,9 @@ export default function BackgroundMusic({ router }) {
     const from = el.volume
     const start = performance.now()
     const step = (now) => {
-      const t = Math.min(1, (now - start) / ms)
-      el.volume = from + (target - from) * t
+      // clamp: the first frame's timestamp can be slightly earlier than `start`, and volume must stay in 0–1
+      const t = Math.max(0, Math.min(1, (now - start) / ms))
+      el.volume = Math.max(0, Math.min(1, from + (target - from) * t))
       if (t < 1) fade.current = requestAnimationFrame(step)
       else done?.()
     }
