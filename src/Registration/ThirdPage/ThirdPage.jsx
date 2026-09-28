@@ -22,7 +22,7 @@ const ThirdPage = () => (
     <SelectField
       name="roomSituation"
       label="Will you share the workshop with fellow apprentices?"
-      placeholder="Make your choice"
+      placeholder="Apprentices of another gender"
       options={YES_NO}
       rules={{ required: 'Room Situation selection is required' }}
     />

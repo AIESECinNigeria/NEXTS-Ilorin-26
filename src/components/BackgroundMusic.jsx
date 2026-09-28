@@ -5,7 +5,9 @@ import { AUDIO } from '../content'
 const STORAGE_KEY = 'nexts-music-muted'
 const VOLUME = 0.6
 const FADE_MS = 1800
-const UNLOCK_EVENTS = ['pointerdown', 'keydown', 'touchstart']
+// Only these count as permission to play sound. On phones a tap grants it when the finger lifts
+// (touchend / pointerup / click), not when it lands — so listen for all of them.
+const UNLOCK_EVENTS = ['pointerdown', 'pointerup', 'mousedown', 'touchend', 'click', 'keydown']
 
 function readMuted() {
   try {
@@ -54,19 +56,28 @@ export default function BackgroundMusic() {
 
   useEffect(() => {
     if (muted) return
-    let unlocked = false
-    const unlock = () => {
-      if (unlocked) return
-      unlocked = true
-      remove()
-      play()
-    }
+    let done = false
+    let trying = false
     const remove = () => UNLOCK_EVENTS.forEach((e) => window.removeEventListener(e, unlock, true))
+    // Keep listening until the browser actually lets the song start
+    const unlock = () => {
+      if (done || trying) return
+      trying = true
+      play().then((ok) => {
+        trying = false
+        if (ok) {
+          done = true
+          remove()
+        }
+      })
+    }
 
-    play().then((ok) => {
-      if (!ok && !unlocked) UNLOCK_EVENTS.forEach((e) => window.addEventListener(e, unlock, true))
-    })
-    return remove
+    UNLOCK_EVENTS.forEach((e) => window.addEventListener(e, unlock, true))
+    unlock() // straight away, in case the browser allows autoplay (e.g. a returning visitor on Chrome)
+    return () => {
+      done = true
+      remove()
+    }
   }, [muted, play])
 
   useEffect(() => () => cancelAnimationFrame(fade.current), [])
