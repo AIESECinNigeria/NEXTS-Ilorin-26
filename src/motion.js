@@ -23,3 +23,16 @@ export function drawIn(delay = 0) {
     style: { transformOrigin: 'left' },
   }
 }
+
+// Registration card: the questions slide in from the side you're heading to (dir 1 = next, -1 = back)
+// and appear one after another.
+export const stepContent = {
+  enter: (dir) => ({ opacity: 0, x: 48 * dir }),
+  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: EASE, staggerChildren: 0.07, delayChildren: 0.08 } },
+  exit: (dir) => ({ opacity: 0, x: -48 * dir, transition: { duration: 0.28, ease: 'easeIn' } }),
+}
+
+export const stepItem = {
+  enter: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+}

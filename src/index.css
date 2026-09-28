@@ -16,11 +16,7 @@
   --font-aoboshi: "Aoboshi One", serif;
   --font-faculty: "Faculty Glyphic", sans-serif;
 
-  /*
-   * Spacing stays at Tailwind's default (4px per step) because the hero screens are built on it.
-   * The registration pages use 16px steps; they get that by setting --spacing: 16px on their own
-   * containers (Registration.module.css, Success.module.css), so both work side by side.
-   */
+  /* Spacing stays at Tailwind's default (4px per step); every page is built on it. */
 
   --animate-largen: largen 2s ease-in-out;
   @keyframes largen {
