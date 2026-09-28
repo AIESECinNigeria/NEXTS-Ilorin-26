@@ -15,9 +15,7 @@ import { submitRegistration } from './submit'
 
 const PAGES = [FirstPage, SecondPage, ThirdPage, FourthPage]
 
-// Per-page photo and mobile headline placement (Figma Hero 9/10/12/13 and Mobile 10–13).
-// Desktop photos sit on a 1440×1024 canvas pinned bottom-left; mobile ones on the 375-wide column.
-// Glass/ornament shapes floating around the desktop card (Figma Hero 10/12/13)
+
 const COMB = { src: IMAGES.decoComb, className: 'top-26.25 left-163.25 h-30.75 w-25.25' }
 const MASK = { src: IMAGES.decoMask }
 
@@ -84,7 +82,7 @@ const Registration = () => {
   const index = STEPS.findIndex((s) => pathname.replace(/\/$/, '').endsWith(`/${s.path}`))
   const [isLoading, setIsLoading] = useState(false)
 
-  // Remember which way we moved so the questions slide in from the right side
+  
   const [move, setMove] = useState({ index, dir: 1 })
   if (move.index !== index) setMove({ index, dir: index > move.index ? 1 : -1 })
 
