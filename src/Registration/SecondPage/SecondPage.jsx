@@ -18,6 +18,7 @@ const LCS = [
   { value: 'illorin', label: 'Ilorin' },
   { value: 'jos', label: 'Jos' },
   { value: 'kano', label: 'Kano' },
+  { value: 'lagos', label: 'Lagos' },
   { value: 'port_harcourt', label: 'Port Harcourt' },
   { value: 'zaria', label: 'Zaria' },
 ]

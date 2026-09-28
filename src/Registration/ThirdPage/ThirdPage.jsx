@@ -21,8 +21,8 @@ const ThirdPage = () => (
     />
     <SelectField
       name="roomSituation"
-      label="Will you share the workshop with fellow apprentices?"
-      placeholder="Apprentices of another gender"
+      label="Will you share the lodging with apprentices of another gender?"
+      placeholder="Make your choice"
       options={YES_NO}
       rules={{ required: 'Room Situation selection is required' }}
     />
