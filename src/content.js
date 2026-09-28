@@ -56,6 +56,10 @@ export const IMAGES = {
   mIconScissors: img('m-icon-scissors.svg'),
 }
 
+export const AUDIO = {
+  theme: '/audio/theme.mp3', // Son Lux – Thunderbolts
+}
+
 export const TIMING = {
   fade: 0.9, // seconds, fade in/out of every screen
   introHold: 2600, // ms Hero 01 stays on screen after fading in

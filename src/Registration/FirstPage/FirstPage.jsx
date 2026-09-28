@@ -9,7 +9,7 @@ const FirstPage = () => (
   <>
     <TextField
       name="fullName"
-      label="What do we call the artisan?"
+      label="What do we call the apprentice?"
       placeholder="Michelangelo Buonarroti"
       mobilePlaceholder="Enter your name"
       rules={{ required: 'Full Name is required' }}
@@ -17,7 +17,7 @@ const FirstPage = () => (
     <TextField
       name="number"
       type="tel"
-      label="How do we reach the master?"
+      label="How do we reach the apprentice?"
       hint="(Phone Number)"
       hintBreak
       placeholder="Your golden ratio..."
@@ -27,7 +27,7 @@ const FirstPage = () => (
     <TextField
       name="email"
       type="email"
-      label="Where should we send the artist's correspondence?"
+      label="Where should we send the apprentice's correspondence?"
       hint="(Email Address)"
       placeholder="Your workshop's digital address..."
       rules={{ required: 'Email is required' }}

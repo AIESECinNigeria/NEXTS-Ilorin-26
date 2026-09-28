@@ -50,7 +50,7 @@ const SecondPage = () => (
     <SelectField
       name="first_conf"
       label="Is this your first time entering the forge?"
-      placeholder="Select an option"
+      placeholder="Is this your first conference"
       options={YES_NO}
       rules={{ required: 'First Conference selection is required' }}
     />

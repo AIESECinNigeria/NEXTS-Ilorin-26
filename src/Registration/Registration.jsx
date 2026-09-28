@@ -255,7 +255,7 @@ function MobileLayout({ index, questions, onSubmit, onBack, busy }) {
         <div className="absolute inset-0 bg-ink/85" />
       </div>
 
-      <form onSubmit={onSubmit} noValidate className="relative mx-auto flex w-full max-w-[430px] flex-col px-5 pt-6 pb-8">
+      <form onSubmit={onSubmit} noValidate className="relative mx-auto flex w-full max-w-[430px] flex-col px-5 pt-6 pb-16">
         <motion.div {...fadeFrom({ y: -12 }, 0.2, 0.8)} className="relative z-10 flex h-7 items-center justify-between">
           <AnimatePresence mode="wait">
             <motion.img

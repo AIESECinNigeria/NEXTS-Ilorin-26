@@ -4,7 +4,7 @@ const FourthPage = () => (
   <>
     <TextField
       name="nextOfKin"
-      label="Who do we call when the artisan needs an extra pair of hands?"
+      label="Who do we call when the apprentice needs an extra pair of hands?"
       placeholder="Name and number of your next of kin"
       rules={{ required: 'Next of Kin is required' }}
     />

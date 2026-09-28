@@ -9,7 +9,7 @@ const ThirdPage = () => (
   <>
     <TextField
       name="allergies"
-      label="What must we keep away from the artisan?"
+      label="What must we keep away from the apprentice?"
       placeholder="What is/are your allergy(ies)?"
       rules={{ required: 'Allergies is required' }}
     />
@@ -21,8 +21,8 @@ const ThirdPage = () => (
     />
     <SelectField
       name="roomSituation"
-      label="Will you share the workshop with fellow artisans?"
-      placeholder="Choose your workshop arrangement"
+      label="Will you share the workshop with fellow apprentices?"
+      placeholder="Make your choice"
       options={YES_NO}
       rules={{ required: 'Room Situation selection is required' }}
     />
