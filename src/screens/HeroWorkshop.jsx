@@ -4,6 +4,10 @@ import WorkshopFrame, { ForgeLayers } from '../components/WorkshopFrame'
 import useViewport from '../hooks/useViewport'
 import { IMAGES, TIMING } from '../content'
 
+// Third intro screen: types out the "Every masterpiece begins in a workshop…" text next to a photo,
+// waits a moment, then moves on by itself.
+
+// The sentence, split so the second half can be orange
 const SEGMENTS = [
   { text: 'Every masterpiece begins in a workshop,', className: 'text-cream' },
   {
@@ -16,6 +20,7 @@ export default function HeroWorkshop({ onNext }) {
   const { isMobile } = useViewport()
   const [typed, setTyped] = useState(false)
 
+  // Once the typing has finished, give people time to read, then go to the next screen
   useEffect(() => {
     if (!typed) return
     const t = setTimeout(onNext, TIMING.workshopHold)
@@ -26,7 +31,7 @@ export default function HeroWorkshop({ onNext }) {
     <Typewriter
       as="h1"
       segments={SEGMENTS}
-      delay={TIMING.fade * 1000}
+      delay={TIMING.fade * 1000} // start typing once the screen has faded in
       onDone={() => setTyped(true)}
       className={
         isMobile

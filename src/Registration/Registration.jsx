@@ -13,12 +13,23 @@ import { EASE, fadeFrom, stepContent } from '../motion'
 import { STEPS, stepUrl } from './steps'
 import { submitRegistration } from './submit'
 
+// The registration form: 4 pages of questions at /registration/step-one … step-four.
+// This file is the shell around the pages: background, photo, headline, the orange card with progress
+// bars, the Back / Next buttons, saving answers, validation per page, and submitting at the end.
+// Each page file (FirstPage.jsx …) only lists its questions. steps.js lists which fields each page checks.
+
+// The question components for each page, in order
 const PAGES = [FirstPage, SecondPage, ThirdPage, FourthPage]
 
-
+// Floating decorations beside the desktop card (the mask's position differs per page)
 const COMB = { src: IMAGES.decoComb, className: 'top-26.25 left-163.25 h-30.75 w-25.25' }
 const MASK = { src: IMAGES.decoMask }
 
+// What changes from page to page (same order as PAGES):
+//   desktop / mobile  the photo and where it sits
+//   headline          where "...how ready are you..." sits on mobile, and its colour
+//   icon              small icon at the top left on mobile
+//   decor             floating decorations on desktop
 const SCENES = [
   {
     desktop: { src: IMAGES.regMosque, className: 'top-0 left-0 h-256 w-360' },
@@ -108,6 +119,8 @@ const isBlank = (value) => String(value ?? '').trim() === ''
 
 const Registration = () => {
   const [savedForm] = useState(loadSavedForm) // read once, on first render
+  // One form shared by all 4 pages (react-hook-form). Fields are checked when you leave them (onBlur)
+  // and when you press Next.
   const methods = useForm({
     defaultValues: savedForm,
     mode: 'onBlur',
@@ -115,13 +128,15 @@ const Registration = () => {
   const { isMobile } = useViewport()
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  // Which page we're on, from the URL (0 = step-one). -1 if the URL doesn't match a page.
   const index = STEPS.findIndex((s) => pathname.replace(/\/$/, '').endsWith(`/${s.path}`))
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false) // true while the form is being sent
 
-  
+  // Remember whether we went forward (1) or back (-1), so the questions slide in from the right side
   const [move, setMove] = useState({ index, dir: 1 })
   if (move.index !== index) setMove({ index, dir: index > move.index ? 1 : -1 })
 
+  // New page: start at the top (matters on mobile, where the page scrolls)
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [index])
@@ -130,12 +145,14 @@ const Registration = () => {
   const { subscribe } = methods
   useEffect(() => subscribe({ formState: { values: true }, callback: ({ values }) => saveForm(values) }), [subscribe])
 
+  // Unknown URL like /registration → go to the first page
   if (index < 0) return <Navigate to={stepUrl(0)} replace />
 
   // Opened a later page (link, refresh in a new tab) with earlier answers missing? Go back to the first gap.
   const firstUnfinished = STEPS.findIndex((step, i) => i < index && step.fields.some((f) => isBlank(methods.getValues(f))))
   if (firstUnfinished >= 0) return <Navigate to={stepUrl(firstUnfinished)} replace />
 
+  // Send everything to the backend. On success: forget the saved answers and show the success page.
   const onFinalSubmit = async (allFormData) => {
     setIsLoading(true)
     try {
@@ -152,6 +169,7 @@ const Registration = () => {
     }
   }
 
+  // Next / Submit: check this page's fields; if they're fine go to the next page, or submit on the last one
   const next = async () => {
     if (isLoading) return
     const isPageValid = await methods.trigger(STEPS[index].fields)
@@ -160,8 +178,10 @@ const Registration = () => {
     else await methods.handleSubmit(onFinalSubmit)()
   }
 
+  // Back from page 1 returns to the intro
   const back = () => navigate(index === 0 ? '/' : stepUrl(index - 1))
 
+  // Pressing Enter in a field acts like the Next button
   const onSubmit = (e) => {
     e.preventDefault()
     next()
@@ -184,12 +204,14 @@ const Registration = () => {
     </AnimatePresence>
   )
 
+  // Same form, two layouts
   const Layout = isMobile ? MobileLayout : DesktopLayout
 
   return (
     <FormProvider {...methods}>
       <Layout index={index} questions={questions} onSubmit={onSubmit} onBack={back} busy={isLoading} />
 
+      {/* Full-screen "sending" overlay while the form is submitted */}
       <AnimatePresence>
         {isLoading && (
           <motion.div
@@ -207,11 +229,13 @@ const Registration = () => {
   )
 }
 
+// Desktop: one screen, no scrolling. Photo and headline on the left, card on the right.
 function DesktopLayout({ index, questions, onSubmit, onBack, busy }) {
   const photo = SCENES[index].desktop
   return (
     <main className="relative h-dvh w-full overflow-hidden bg-ink">
-      {/* Texture fills the screen; the "NE XTS" outline sits on the design canvas so it scales with the page */}
+      {/* Background: the texture fills the whole screen; the faint "NE XTS" letters sit on the scaled
+          layout so they stay the right size on any screen */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <img src={IMAGES.regTexture} alt="" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-ink/85" />
@@ -221,7 +245,7 @@ function DesktopLayout({ index, questions, onSubmit, onBack, busy }) {
       </Stage>
 
       <Stage className="pointer-events-none">
-        {/* Figma darkens the object photos */}
+        {/* Pages 2–4 photos are dimmed a little so they don't compete with the card */}
         <Photo src={photo.src} className={`${photo.className} ${index > 0 ? 'brightness-75' : ''}`} from={-60} />
         <motion.h1 {...fadeFrom({ y: -20 }, 0.2)} className="absolute top-16 left-30 font-display text-[64px] leading-17 tracking-[-1.92px] text-nexts">
           {HEADLINE.map((line) => (
@@ -232,16 +256,19 @@ function DesktopLayout({ index, questions, onSubmit, onBack, busy }) {
         </motion.h1>
       </Stage>
 
-      {/* ...and fades them into the background towards the bottom (full width, so no seam on wide screens) */}
+      {/* Dark fade along the bottom so the photos melt into the background. Full screen width,
+          so there's no visible edge on wide screens. */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-ink via-ink/60 to-transparent" />
 
-      {/* Logo keeps to the left of the screen (Figma: 120px from the frame edge) rather than the centred canvas */}
+      {/* The logo sticks to the left edge of the screen instead of the centred layout,
+          so on wide screens it doesn't drift towards the middle */}
       <Stage anchor="left" className="pointer-events-none">
         <motion.img {...fadeFrom({ y: 16 }, 0.5, 0.9)} src={IMAGES.regLogo} alt="NEXTS Ilorin 2026" className="absolute top-227 left-30 h-12.5 w-38.5" />
       </Stage>
 
       <Stage>
         <form onSubmit={onSubmit} noValidate>
+          {/* The orange card: progress bars + this page's questions */}
           <motion.div {...fadeFrom({ y: 40 }, 0.3, 0.9)} className="absolute top-16 left-182.5 min-h-193.5 w-147.5 bg-nexts px-10 py-10">
             {/* Glass puzzle floats over the card's orange but under the questions, so error messages
                 that push the fields down never end up hidden behind it */}
@@ -265,6 +292,7 @@ function DesktopLayout({ index, questions, onSubmit, onBack, busy }) {
             </div>
           </motion.div>
 
+          {/* This page's floating decorations */}
           <AnimatePresence>
             {SCENES[index].decor.map((d) => (
               <motion.img
@@ -291,16 +319,19 @@ function DesktopLayout({ index, questions, onSubmit, onBack, busy }) {
   )
 }
 
+// Mobile: one scrolling column. Top bar, photo with the headline over it, card, then the buttons.
 function MobileLayout({ index, questions, onSubmit, onBack, busy }) {
   const { mobile: photo, headline } = SCENES[index]
   return (
     <main className="relative min-h-dvh w-full overflow-x-hidden bg-ink">
+      {/* Background stays put while the page scrolls */}
       <div aria-hidden className="pointer-events-none fixed inset-0">
         <img src={IMAGES.regTexture} alt="" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-ink/85" />
       </div>
 
       <form onSubmit={onSubmit} noValidate className="relative mx-auto flex w-full max-w-107.5 flex-col px-5 pt-6 pb-8">
+        {/* Top bar: this page's icon (spins in when the page changes) and the logo */}
         <motion.div {...fadeFrom({ y: -12 }, 0.2, 0.8)} className="relative z-10 flex h-7 items-center justify-between">
           <AnimatePresence mode="wait">
             <motion.img
@@ -335,7 +366,8 @@ function MobileLayout({ index, questions, onSubmit, onBack, busy }) {
           </motion.h1>
         </AnimatePresence>
 
-        {/* Buttons stay at the same height on every page (Figma), moving down only when the card is taller */}
+        {/* The buttons sit at the same height on every page (min-h + mt-auto), and only move down
+            when a page's card is taller than usual */}
         <div className="mt-52 flex min-h-142.5 flex-col">
           <motion.div {...fadeFrom({ y: 40 }, 0.3, 0.9)} className="relative z-10 mb-12 bg-nexts px-3 py-4.5">
             <StepBars index={index} mobile />
@@ -343,9 +375,10 @@ function MobileLayout({ index, questions, onSubmit, onBack, busy }) {
           </motion.div>
 
           <motion.div {...fadeFrom({ y: 16 }, 0.6, 0.9)} className="relative mt-auto flex flex-col gap-4">
-          <img src={IMAGES.regNextsOutline} alt="" aria-hidden className="pointer-events-none absolute -top-17.75 left-0 w-full opacity-50" />
-          <NavButton kind="back" mobile onClick={onBack} disabled={busy} />
-          <NavButton kind="next" last={index === STEPS.length - 1} mobile disabled={busy} />
+            {/* Faint "NEXTS" outline peeking out behind the buttons */}
+            <img src={IMAGES.regNextsOutline} alt="" aria-hidden className="pointer-events-none absolute -top-17.75 left-0 w-full opacity-50" />
+            <NavButton kind="back" mobile onClick={onBack} disabled={busy} />
+            <NavButton kind="next" last={index === STEPS.length - 1} mobile disabled={busy} />
           </motion.div>
         </div>
       </form>
@@ -353,7 +386,8 @@ function MobileLayout({ index, questions, onSubmit, onBack, busy }) {
   )
 }
 
-// Page photo: slides in from the side, cross-fades when the page changes
+// Page photo: slides in from the side (`from` = starting x offset in px) and cross-fades when the page
+// changes (the old photo fades out while the new one comes in, because they have different keys).
 function Photo({ src, className, from }) {
   return (
     <AnimatePresence>
@@ -370,12 +404,13 @@ function Photo({ src, className, from }) {
   )
 }
 
-// One bar per page: finished pages full, the current one fills as its questions are answered
+// Progress bars at the top of the card, one per page: earlier pages are full, the current page's bar
+// fills as its questions get answered, later pages are empty.
 function StepBars({ index, mobile }) {
   const { control } = useFormContext()
   const fields = STEPS[index].fields
-  const values = useWatch({ control, name: fields })
-  const answered = values.filter((v) => String(v ?? '').trim() !== '').length / fields.length
+  const values = useWatch({ control, name: fields }) // re-renders as this page's answers change
+  const answered = values.filter((v) => String(v ?? '').trim() !== '').length / fields.length // 0 to 1
 
   return (
     <div
@@ -400,6 +435,8 @@ function StepBars({ index, mobile }) {
   )
 }
 
+// Back (cream) or Next/Submit (orange) button. The arrow nudges outwards on hover.
+// Next is a submit button, so the form's onSubmit handles it (which also makes Enter work).
 function NavButton({ kind, mobile, onClick, disabled, last }) {
   const isBack = kind === 'back'
   const arrow = (
@@ -424,7 +461,6 @@ function NavButton({ kind, mobile, onClick, disabled, last }) {
       } ${mobile ? 'relative h-10 w-full gap-1 text-[12px] leading-3.75' : 'h-13 gap-2 px-6 text-[16px] leading-5'}`}
     >
       {isBack && arrow}
-      {/* The last page sends the form, so its button reads Submit */}
       <span>{isBack ? 'Back' : last ? 'Submit' : 'Next'}</span>
       {!isBack && arrow}
     </motion.button>

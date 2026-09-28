@@ -5,8 +5,9 @@ import useViewport from '../../hooks/useViewport'
 import { IMAGES } from '../../content'
 import { drawIn, fadeFrom, slideIn } from '../../motion'
 
-// "Registration successful" — built on the same orange frame as Hero 01/02.
-// Positions were measured from Figma screenshots (Hero desktop frame, Mobile 14).
+// Shown after the form is submitted (/success): "Registration successful" with the car, on the same
+// orange background as the first intro screens. The music fades out 10s after this page opens
+// (see BackgroundMusic.jsx).
 const Success = () => {
   const { isMobile } = useViewport()
 

@@ -8,12 +8,14 @@ import HeroReady from './screens/HeroReady'
 import { GlassFilterDefs } from './components/GlassText'
 import { TIMING } from './content'
 
+// The intro sequence, shown one screen at a time in this order. Each screen calls `onNext` when it's done
+// (after a button press or a timer).
 const STEPS = [HeroIntro, HeroCall, HeroWorkshop, HeroReady]
 
-// Registration.jsx uses nested routes (step-one … step-four), so it has to be reached through its
-// own URL (see main.jsx) rather than rendered here — at "/" none of its steps would match.
+// Where the visitor goes after the last intro screen. The form has its own routes (see main.jsx).
 const REGISTRATION_START = '/registration/step-one'
 
+// Home page ("/"): plays the intro screens with a cross-fade between each one.
 export default function App() {
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
@@ -23,7 +25,8 @@ export default function App() {
   return (
     <main className="relative h-dvh w-full overflow-hidden bg-ink">
       <GlassFilterDefs />
-      {/* After Hero 04 fades out, move on to the registration pages */}
+      {/* mode="wait" lets the old screen fade out before the next fades in.
+          Once the last screen has faded out, move on to the registration form. */}
       <AnimatePresence mode="wait" onExitComplete={() => step >= STEPS.length && navigate(REGISTRATION_START)}>
         {Screen && (
           <motion.div

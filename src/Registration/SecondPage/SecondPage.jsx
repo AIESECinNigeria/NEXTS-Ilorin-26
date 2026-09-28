@@ -1,6 +1,9 @@
 import { DateField, SelectField } from '../fields'
 import { MIN_AGE, ageOn } from '../steps'
 
+// Page 2 of the form: role, date of birth (must be 18+), local committee, first conference.
+// Option `value`s are what the backend receives; `label`s are what visitors see.
+
 const ROLES = ['tm', 'tl', 'lcvp', 'lcp', 'alumni'].map((value) => ({ value, label: value.toUpperCase() }))
 
 const LCS = [

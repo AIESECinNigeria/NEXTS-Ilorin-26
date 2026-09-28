@@ -1,23 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Faculty+Glyphic&display=swap");
 @import "tailwindcss";
 
-/* Figma styles: NEXTS/1, NEXTS/2, NEXTS/3 */
+/* Brand colours and fonts. Each one becomes a Tailwind class, e.g. bg-ink, text-nexts, font-glyphic. */
 @theme {
   --color-ink: #1a1b1e;
   --color-cream: #f4f2ed;
   --color-nexts: #ff6b00;
 
-  /* Hero screens */
+  /* font-display: big headings and questions · font-glyphic: labels, buttons, inputs · font-creato: small bold notes */
   --font-display: "Aoboshi One", ui-sans-serif, system-ui, sans-serif;
   --font-glyphic: "Faculty Glyphic", ui-serif, serif;
   --font-creato: "Creato Display", ui-sans-serif, system-ui, sans-serif;
 
-  /* Registration pages */
+  /* Older names for the same two fonts. Not used anywhere at the moment. */
   --font-aoboshi: "Aoboshi One", serif;
   --font-faculty: "Faculty Glyphic", sans-serif;
 
-  /* Spacing stays at Tailwind's default (4px per step); every page is built on it. */
+  /* Spacing is left at Tailwind's default (1 step = 4px, so p-4 = 16px). Every page relies on it. */
 
+  /* animate-largen: grow-and-fade-in effect. Not used anywhere at the moment. */
   --animate-largen: largen 2s ease-in-out;
   @keyframes largen {
     0% {
@@ -32,12 +33,12 @@
 }
 
 /*
- * Element defaults live in the base layer so Tailwind utilities always win over them.
- * (Unlayered element rules would beat every utility class and break the hero layouts.)
+ * Default styles for plain HTML elements. They live in the "base" layer so any Tailwind class
+ * on an element overrides them. (Rules outside a layer would beat every Tailwind class.)
  */
 @layer base {
-  /* No height: 100% on html/body/#root: the registration pages use h-full and need to grow with
-     their content. The hero screens size themselves with h-dvh instead. */
+  /* Don't add height: 100% to html/body/#root: the mobile form must be able to grow and scroll.
+     Full-screen pages set their own height with h-dvh. */
   body {
     @apply bg-ink font-display text-cream antialiased;
     margin: 0;
@@ -58,6 +59,7 @@
   }
 }
 
+/* Not used anywhere at the moment (use the font-glyphic class instead) */
 .faculty-glyphic-regular {
   font-family: "Faculty Glyphic", sans-serif;
   font-weight: 400;
@@ -65,7 +67,7 @@
 }
 
 @layer utilities {
-  /* Figma gives button labels a 0.5px stroke in their own colour, which thickens the glyphs slightly */
+  /* Outlines text with a 0.5px stroke in its own colour, making thin button labels slightly bolder */
   .text-stroke-self {
     -webkit-text-stroke: 0.5px currentColor;
   }

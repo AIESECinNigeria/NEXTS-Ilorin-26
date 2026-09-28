@@ -7,13 +7,17 @@ import useViewport from '../hooks/useViewport'
 import { IMAGES, TIMING } from '../content'
 import { EASE } from '../motion'
 
+// Fourth (last) intro screen: types out "How ready are you…", then shows a press-and-hold
+// "100% ready" button that leads to the registration form.
+
+// The question, split so the second half can be orange
 const SEGMENTS = [
   { text: 'How ready are you', className: 'text-cream' },
   { text: ' to enter the workshop and become the masterpiece?', className: 'text-nexts' },
 ]
 
+// On phones the orange half starts on its own line
 const MOBILE_SEGMENTS = [SEGMENTS[0], { ...SEGMENTS[1], className: 'block text-nexts' }]
-
 
 export default function HeroReady({ onNext }) {
   const { isMobile } = useViewport()
@@ -46,7 +50,7 @@ export default function HeroReady({ onNext }) {
     />
   )
 
-  // Mobile 8: a 335×40 bar
+  // Phones get a full-width bar version of the same button
   const mobileButton = (
     <HoldButton
       size="bar"
@@ -61,6 +65,7 @@ export default function HeroReady({ onNext }) {
     />
   )
 
+  // The button stays hidden (and unclickable) until the question has finished typing, then rises in
   const reveal = {
     initial: { opacity: 0, y: 30 },
     animate: typed ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 },

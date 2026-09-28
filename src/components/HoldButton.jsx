@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { animate, motion, useMotionValue } from 'framer-motion'
 import { TIMING } from '../content'
 
-
+// Button sizes: desktop, "bar" (full-width mobile bar) and "mobile" (small mobile button)
 const SIZES = {
   desktop: {
     button: 'h-[52px]',
@@ -24,6 +24,12 @@ const SIZES = {
   },
 }
 
+// Press-and-hold button: a bar fills from left to right while it's held (mouse, touch, or Space/Enter).
+// Letting go early drains it. When full it switches to its "done" colours, vibrates on phones,
+// then calls onComplete after a short pause.
+//   trackClass / fillClass     background of the empty bar / the filling part
+//   chipClass                  the box around the label and arrow
+//   labelClass / doneLabelClass  label colour before / after it's full
 export default function HoldButton({
   label,
   arrow,
@@ -38,12 +44,13 @@ export default function HoldButton({
   size = 'desktop',
 }) {
   const s = SIZES[size]
-  const progress = useMotionValue(0)
+  const progress = useMotionValue(0) // 0 = empty, 1 = full; drives the fill width without re-rendering
   const controls = useRef(null)
   const timer = useRef(null)
   const [holding, setHolding] = useState(false)
   const [done, setDone] = useState(false)
 
+  // Stop any running animation / timer if the button disappears mid-hold
   useEffect(
     () => () => {
       controls.current?.stop()
@@ -52,6 +59,7 @@ export default function HoldButton({
     [],
   )
 
+  // Fill up from wherever the bar is now, so a quick re-press continues instead of restarting
   const start = () => {
     if (done) return
     setHolding(true)
@@ -68,6 +76,7 @@ export default function HoldButton({
     })
   }
 
+  // Let go before it's full: drain back to empty
   const release = () => {
     if (done || !holding) return
     setHolding(false)
@@ -82,6 +91,7 @@ export default function HoldButton({
       type="button"
       aria-label={`Press and hold to ${label.toLowerCase()}`}
       onPointerDown={(e) => {
+        // keep receiving pointer events even if the finger slides off the button
         e.currentTarget.setPointerCapture?.(e.pointerId)
         start()
       }}
@@ -95,7 +105,7 @@ export default function HoldButton({
       }}
       onKeyUp={(e) => isActivationKey(e) && release()}
       onBlur={release}
-      onContextMenu={(e) => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()} // a long press on phones would otherwise open the context menu
       animate={{ scale: holding ? 0.99 : 1 }}
       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
       className={`relative flex ${s.button} w-full cursor-pointer touch-none justify-end select-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream ${className}`}

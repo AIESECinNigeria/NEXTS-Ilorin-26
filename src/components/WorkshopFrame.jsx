@@ -4,8 +4,14 @@ import { MOBILE, mobileWorkshop } from './stageSizes'
 import { IMAGES } from '../content'
 import { fadeFrom } from '../motion'
 
-
-// mobileGap: tighter spacing on mobile (top bar at 16, photo at 64) instead of the Figma spacing (24 / 92)
+// Dark "workshop" layout shared by the third and fourth intro screens: a photo, a block of text and
+// an optional button (`action`).
+//   Desktop: photo on the right with an orange tint, text on the left, logo at the bottom left.
+//   Mobile:  top bar with icon and logo, photo on top, text and button underneath.
+// Props:
+//   mobileHeight  height of the mobile canvas (the two screens have different amounts of content)
+//   mobileGap     true = tighter spacing between the top bar, photo and text on mobile
+//   photoHeight   height of the desktop photo box
 export default function WorkshopFrame({ mobile, mobileHeight, mobileGap = false, text, photo, photoHeight, action }) {
   if (mobile) {
     return (
@@ -58,7 +64,7 @@ export default function WorkshopFrame({ mobile, mobileHeight, mobileGap = false,
   )
 }
 
-// The pottery stack used behind the desktop photos.
+// Two pottery photos stacked to fill the desktop photo box. forge4Top moves the back photo up or down.
 export function ForgeLayers({ forge4Top }) {
   return (
     <>

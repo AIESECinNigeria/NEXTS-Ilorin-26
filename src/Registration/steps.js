@@ -1,4 +1,5 @@
-// Order of the registration pages and the fields each one validates before moving on.
+// The registration pages in order: their URL (/registration/<path>) and the fields that must be valid
+// before the visitor can leave that page. Adding a question to a page? Add its field name here too.
 export const STEPS = [
   { path: 'step-one', fields: ['fullName', 'number', 'gender', 'email'] },
   { path: 'step-two', fields: ['role', 'd_o_b', 'lc', 'first_conf'] },
@@ -6,11 +7,13 @@ export const STEPS = [
   { path: 'step-four', fields: ['nextOfKin', 'relationship', 'expectations', 'additionalInfo'] },
 ]
 
+// Full URL of page i (0 = first page)
 export const stepUrl = (i) => `/registration/${STEPS[i].path}`
 
+// Minimum age to register (checked on the date of birth question)
 export const MIN_AGE = 18
 
-// Full years between a YYYY-MM-DD birth date and today
+// Age in full years for a YYYY-MM-DD birth date (NaN if the date is incomplete)
 export function ageOn(birthDate, today = new Date()) {
   const [y, m, d] = birthDate.split('-').map(Number)
   if (!y || !m || !d) return NaN

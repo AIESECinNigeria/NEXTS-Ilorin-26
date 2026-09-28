@@ -5,7 +5,8 @@ import useViewport from '../hooks/useViewport'
 import { IMAGES } from '../content'
 import { fadeFrom, slideIn } from '../motion'
 
-
+// Second intro screen: "A call to become both the master and masterpiece" around an anvil, with a
+// press-and-hold "Answer" button that moves on to the next screen.
 export default function HeroCall({ onNext }) {
   const { isMobile } = useViewport()
 
@@ -18,6 +19,8 @@ export default function HeroCall({ onNext }) {
 }
 
 
+// Each word is placed on its own so the headline can wrap around the anvil ("mas" + "terpiece" are
+// split on purpose). Screen readers read the hidden <h1> above instead of these pieces.
 function Desktop({ onNext }) {
   const word = 'absolute text-[120px] leading-[120px] tracking-[-3.6px] whitespace-nowrap uppercase'
   return (

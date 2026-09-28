@@ -6,8 +6,13 @@ import { IMAGES, TOP_BAR } from '../content'
 import { fadeFrom } from '../motion'
 
 
+// Orange "forge" background with the From / Dispatched-via header and logo. Used by the first two
+// intro screens and the success page; the page content goes in `children`.
+//   mobile        render the phone layout
+//   mobileHeader  { src, top }: which header image to show on phones and how far from the top
 export default function ForgeFrame({ mobile, mobileHeader, children }) {
   if (mobile) {
+    // Phone: texture blended into orange, then the page content, then the header on top
     return (
       <section className="absolute inset-0 isolate overflow-hidden bg-[#f0f0f0]">
         <Stage size={MOBILE} fit="cover" className="pointer-events-none">
@@ -39,7 +44,7 @@ export default function ForgeFrame({ mobile, mobileHeader, children }) {
 
   return (
     <section className="absolute inset-0 overflow-hidden bg-nexts">
-      {/* soft-light texture (scaled 10% so its soft edges never show); the blend sits on the Stage so it mixes with the orange */}
+      {/* Texture blended softly into the orange. Scaled up 10% so its faded edges never show. */}
       <Stage fit="cover" className="pointer-events-none mix-blend-soft-light">
         <div className="absolute top-0 left-1/2 flex h-256 w-[1820px] -translate-x-1/2 scale-110 items-center justify-center">
           <img src={IMAGES.forgeTexture} alt="" className="h-[1820px] w-5xl rotate-90 object-cover opacity-50" />
@@ -61,10 +66,11 @@ export default function ForgeFrame({ mobile, mobileHeader, children }) {
   )
 }
 
-// Giant glass "NEXTS / ILORIN": NEXTS drifts down from above, ILORIN rises from below.
+// Giant see-through glass "NEXTS / ILORIN" letters behind the content.
+// NEXTS drifts down from above, ILORIN rises from below.
 export function Watermark({ mobile }) {
   if (mobile) {
-    // Figma stacks two identical copies at 70% for a stronger glass look
+    // Two identical copies stacked on top of each other make the glass effect stronger on small screens
     return [0, 1].map((copy) => (
       <div
         key={copy}

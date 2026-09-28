@@ -2,8 +2,11 @@ import useViewport from '../hooks/useViewport'
 import { DESKTOP } from './stageSizes'
 
 
-// anchor="left" keeps the canvas vertically centred but pinned to the viewport's left edge
-// (for content that belongs at the left of the screen, not the centred canvas).
+// A fixed-size canvas (e.g. 1440×1024) scaled up or down to fit the screen, so everything inside
+// can be positioned with exact values and still look the same on any screen size.
+//   fit="contain" (default): the whole canvas is visible, centred. Use for content.
+//   fit="cover": the canvas fills the screen, edges may be cropped. Use for backgrounds.
+//   anchor="left": stick to the left edge of the screen instead of the centre.
 export default function Stage({ size = DESKTOP, fit = 'contain', anchor = 'center', className = '', children }) {
   const { w, h } = useViewport()
   const sx = w / size.width

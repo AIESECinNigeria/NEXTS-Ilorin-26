@@ -1,5 +1,7 @@
 import { SelectField, TextField } from '../fields'
 
+// Page 3 of the form: allergies, their remedy, and room sharing.
+
 const YES_NO = [
   { value: 'true', label: 'Yes' },
   { value: 'false', label: 'No' },
